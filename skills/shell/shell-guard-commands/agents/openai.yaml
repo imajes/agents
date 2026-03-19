@@ -1,0 +1,5 @@
+interface:
+  display_name: Guard Shell Commands
+  short_description: Enforce safe shell error handling and stdin patterns
+  default_prompt: Use $shell-guard-commands to enforce failure transparency, stderr
+    visibility, and clean stdin/redirection patterns.

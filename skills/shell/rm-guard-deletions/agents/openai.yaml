@@ -1,0 +1,5 @@
+interface:
+  display_name: Guard File Deletions
+  short_description: Safer rm defaults and escalation rules
+  default_prompt: Use $rm-guard-deletions before composing any destructive file-removal
+    command.

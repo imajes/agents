@@ -1,0 +1,5 @@
+interface:
+  display_name: Empromptu FastAPI
+  short_description: FastAPI repo startup and coding guardrails
+  default_prompt: Use $empromptu-python-fastapi in this FastAPI repo and begin by
+    reading the applicable AGENTS.md files.

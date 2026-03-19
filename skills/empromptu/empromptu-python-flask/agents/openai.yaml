@@ -1,0 +1,5 @@
+interface:
+  display_name: Empromptu Flask
+  short_description: Flask repo startup and coding guardrails
+  default_prompt: Use $empromptu-python-flask in this Flask repo and begin by reading
+    the applicable AGENTS.md files.

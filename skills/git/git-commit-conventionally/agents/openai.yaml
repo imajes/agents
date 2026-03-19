@@ -1,0 +1,5 @@
+interface:
+  display_name: Commit Conventionally
+  short_description: Conventional commits with grouped narrative body
+  default_prompt: Use $git-commit-conventionally to create a Conventional Commit message
+    and run commit commands with git -C <repo>.

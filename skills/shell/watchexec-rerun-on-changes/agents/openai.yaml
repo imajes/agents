@@ -1,0 +1,5 @@
+interface:
+  display_name: Rerun on File Changes
+  short_description: Run auto-restart loops for tests and linters
+  default_prompt: Use $watchexec-rerun-on-changes to set up a scoped continuous rerun
+    loop for iterative local edits.

@@ -1,0 +1,7 @@
+interface:
+  display_name: Generate Speech Audio
+  short_description: Generate narrated audio from text
+  icon_small: ./assets/speech-small.svg
+  icon_large: ./assets/speech.png
+  default_prompt: Generate spoken audio for this text with the right voice style,
+    pacing, and output format.

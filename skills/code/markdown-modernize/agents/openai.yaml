@@ -1,0 +1,5 @@
+interface:
+  display_name: Markdown Modernize
+  short_description: Light-touch markdown readability cleanup
+  default_prompt: Use $markdown-modernize to lightly reformat this Markdown file without
+    changing its meaning.

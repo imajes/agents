@@ -1,0 +1,5 @@
+interface:
+  display_name: Lint Shell Commands
+  short_description: Lint shell snippets and scripts before execution
+  default_prompt: Use $shellcheck-lint-commands to lint this shell script/snippet,
+    then pair with $shell-guard-commands for runtime safety.

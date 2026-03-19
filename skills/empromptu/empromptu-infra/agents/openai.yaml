@@ -1,0 +1,5 @@
+interface:
+  display_name: Empromptu Infra
+  short_description: AWS Terraform repo bootstrap and guardrails
+  default_prompt: Use $empromptu-infra in this infrastructure repo and verify AGENTS.md,
+    Just, and AWS/Terraform tooling before changing anything.

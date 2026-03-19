@@ -1,0 +1,5 @@
+interface:
+  display_name: SD Find Replace
+  short_description: Run clear text substitutions with sd safely
+  default_prompt: Use $sd-find-replace only for literal lexical substitutions; escalate
+    to ast-grep/comby when structure or syntax matters.

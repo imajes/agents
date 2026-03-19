@@ -1,0 +1,5 @@
+interface:
+  display_name: SCC Codebase Survey
+  short_description: Survey codebase language and size quickly with scc
+  default_prompt: Use $scc-codebase-survey to map language mix and likely test/tooling
+    surfaces before implementation work.

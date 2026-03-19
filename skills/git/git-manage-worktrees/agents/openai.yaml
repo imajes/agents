@@ -1,0 +1,5 @@
+interface:
+  display_name: Manage Git Worktrees
+  short_description: Repo-local worktree setup and safety rules
+  default_prompt: Use $git-manage-worktrees to create/manage Git worktrees under REPO_PATH/.worktrees,
+    enforce .gitignore coverage, and keep worktree operations traceable.

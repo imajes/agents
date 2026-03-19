@@ -1,0 +1,5 @@
+interface:
+  display_name: Comby Structural Rewrite
+  short_description: Run code-shaped rewrites where regex is brittle
+  default_prompt: Use $comby-structural-rewrite for structure-like rewrites when AST
+    tooling is unavailable; prefer ast-grep when AST support exists.

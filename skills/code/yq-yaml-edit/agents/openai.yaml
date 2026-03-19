@@ -1,0 +1,5 @@
+interface:
+  display_name: yq YAML Edit
+  short_description: Edit and query YAML reliably with yq
+  default_prompt: Use $yq-yaml-edit for YAML path-based edits and verification instead
+    of generic text replacement.

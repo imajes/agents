@@ -1,0 +1,5 @@
+interface:
+  display_name: Hyperfine Benchmark
+  short_description: Benchmark before and after commands with hyperfine
+  default_prompt: Use $hyperfine-benchmark to gather measured timing evidence for
+    this performance claim.

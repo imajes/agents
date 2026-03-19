@@ -1,0 +1,5 @@
+interface:
+  display_name: Empromptu Dev Env
+  short_description: Devcontainer-to-compose migration planning
+  default_prompt: Use $empromptu-devenv to analyze this dev-env repo and produce a
+    concrete migration plan toward per-service devcontainers plus compose.

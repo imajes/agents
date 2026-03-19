@@ -1,0 +1,5 @@
+interface:
+  display_name: Manage Ephemeral Valkey State
+  short_description: Use local Valkey for short-lived shared state
+  default_prompt: Use $valkey-manage-ephemeral-state for ephemeral cache/locks/queues/handoff
+    state; keep durable persistence in files or durable stores.

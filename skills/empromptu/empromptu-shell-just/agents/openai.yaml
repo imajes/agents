@@ -1,0 +1,5 @@
+interface:
+  display_name: Empromptu Shell + Just
+  short_description: Shell, Just, and release workflow helper
+  default_prompt: Use $empromptu-shell-just for shell, Justfile, release, or devops
+    work in this repo.

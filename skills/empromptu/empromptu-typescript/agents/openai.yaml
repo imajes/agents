@@ -1,0 +1,5 @@
+interface:
+  display_name: Empromptu TypeScript
+  short_description: React+Remix repo workflow starter
+  default_prompt: Use $empromptu-typescript in this React+Remix repo and start by
+    reading the applicable AGENTS.md files.

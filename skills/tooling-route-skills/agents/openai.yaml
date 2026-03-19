@@ -1,0 +1,6 @@
+interface:
+  display_name: Tooling Skill Router
+  short_description: Route tasks to the right local tooling skill
+  default_prompt: Use $tooling-route-skills to choose primary/secondary skills with
+    precedence (ast-grep > comby > sd), YAML via yq, shell pairing rules, and commit
+    routing.

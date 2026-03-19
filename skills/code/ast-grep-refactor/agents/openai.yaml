@@ -1,0 +1,5 @@
+interface:
+  display_name: ast-grep Refactor
+  short_description: Apply AST-aware structural search and rewrites
+  default_prompt: Use $ast-grep-refactor first for syntax-aware rewrites in AST-supported
+    languages; only fall back to comby/sd when appropriate.

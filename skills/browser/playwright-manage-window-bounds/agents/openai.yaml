@@ -1,0 +1,6 @@
+interface:
+  display_name: Manage Browser Window Bounds
+  short_description: Resize real Chrome windows via CDP for breakpoint checks
+  default_prompt: Set Chrome window bounds using CDP in a headed Playwright session,
+    report inner and outer dimensions, run checks, and restore baseline size when
+    finished.

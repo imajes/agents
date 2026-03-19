@@ -1,0 +1,5 @@
+interface:
+  display_name: Difftastic Review
+  short_description: Review semantic code diffs with syntax awareness
+  default_prompt: Use $difftastic-review to classify semantic vs mechanical changes
+    before deciding further edits or verification.
