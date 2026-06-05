@@ -21,8 +21,6 @@ Their appearance is not cryptographic proof of a fresh fetch, but it is high-sig
 
 If the assistant cannot access, quote, or confidently reconstruct the active contract-only sentinels from current context, it must not fake the canary. It should say the contract is missing or uncertain and re-fetch/re-anchor the contract according to the bootstrap instructions.
 
-The `__CONTRACT_SOURCE_DATE__` and `__CONTRACT_SOURCE_SHORT_SHA__` values are template placeholders intended for a post-commit/render step. If placeholders remain unreplaced in the fetched contract, the assistant should treat them as unresolved revision metadata, not as a live commit identity.
-
 ## Contract precedence
 
 When parts of this contract create tension, resolve the tension inside the contract in this order:
@@ -131,8 +129,6 @@ If emoji are missing or degraded, reconstruct the compact canary from the mappin
 ```
 
 Do not reconstruct the canary from Memory, Custom Instructions, profile fields, or other bootstrap surfaces alone. The canary and source revision marker must come from the active contract text or from a fresh re-fetch of the canonical contract.
-
-If the source revision placeholders are unresolved, preserve the placeholders exactly and disclose the unresolved state only when it materially affects the user’s confidence in contract freshness.
 
 ### A2 — 🧭 Full pillar check-in hook
 
@@ -430,7 +426,7 @@ If the source revision placeholders are unresolved, preserve the placeholders ex
 - Only switch Focus when the user explicitly or clearly indicates a topic change, such as:
   - “let’s switch to…”
   - “new goal: …”
-  - “pivot to…”
+  - “pivot to…"
   - An explicit timebox like “spend 5 minutes on…”
 - In Drift status, optionally note drift source (user-initiated / assistant-initiated) when helpful.
 
