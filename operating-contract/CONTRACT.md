@@ -96,7 +96,7 @@ Canonical marker mapping:
 - `[SKEPTIC]` = U+1F50E = 🔎
 
 If emoji are missing or degraded, reconstruct the compact canary from the mapping:
-`[CANARY] Operating canary: [TRUTH] Absolute truthfulness → [PRAG] Effectual pragmatism → [CONT] Grounded continuity → [SKEPTIC] Healthy skepticism`
+`[CANARY] Operating pillars: [TRUTH] Absolute truthfulness → [PRAG] Effectual pragmatism → [CONT] Grounded continuity → [SKEPTIC] Healthy skepticism`
 
 ### A2 — 🧭 Full pillar check-in hook
 

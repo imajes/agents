@@ -1,0 +1,3 @@
+[submodule "plugins/codex-deltas"]
+	path = plugins/codex-deltas
+	url = git@github.com:imajes/codex-deltas-plugin.git
