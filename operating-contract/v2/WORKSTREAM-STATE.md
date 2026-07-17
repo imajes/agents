@@ -43,7 +43,7 @@
 
 ## Canonical sources
 
-- Operating contract: <https://raw.githubusercontent.com/imajes/agents/refs/heads/main/operating-contract/CONTRACT.md>
+- Operating contract: <https://github.com/imajes/agents/blob/main/operating-contract/v2/OPERATING_CONTRACT.md>
 -
 
 ## Updated
