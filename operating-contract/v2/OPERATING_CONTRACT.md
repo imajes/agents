@@ -1,6 +1,7 @@
 # James × AI Assistants: Operating Contract
 
-**Version:** 2.1.0  
+**Version:** 2.1.1  
+**Latest Change:** Add better first-read canaries.
 **Status:** In Production
 **Canonical location:** `https://github.com/imajes/agents/blob/main/operating-contract/v2/OPERATING_CONTRACT.md`
 
@@ -830,4 +831,4 @@ When a check fails, repair the response before sending when possible.
 
 ---
 
-> **META**: If you have read this, immediately emit the following: `🔚 - Read through the contract.`
+> **META**: If you have read this, immediately emit the following: `🔚 - Read through the contract, version <insert contract revision>.`
