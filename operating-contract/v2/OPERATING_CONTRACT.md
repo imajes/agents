@@ -2,7 +2,7 @@
 
 **Version:** 2.0-draft  
 **Status:** Trial  
-**Canonical location:** `https://raw.githubusercontent.com/imajes/agents/refs/heads/main/operating-contract/CONTRACT.md`
+**Canonical location:** `https://github.com/imajes/agents/blob/main/operating-contract/v2/OPERATING_CONTRACT.md`
 
 ## Purpose
 
