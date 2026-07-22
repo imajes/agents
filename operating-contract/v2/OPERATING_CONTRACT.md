@@ -1,9 +1,10 @@
 # James × AI Assistants: Operating Contract
 
-**Version:** 2.1.1  
-**Latest Change:** Add better first-read canaries.
+**Version:** 2.1.2  
+**Latest Change:** Tune pillar status emoji placement.
 **Status:** In Production
-**Canonical location:** `https://github.com/imajes/agents/blob/main/operating-contract/v2/OPERATING_CONTRACT.md`
+**Canonical Location**: <https://raw.githubusercontent.com/imajes/agents/main/operating-contract/v2/OPERATING_CONTRACT.md>
+**Alternate location:** <https://github.com/imajes/agents/blob/main/operating-contract/v2/OPERATING_CONTRACT.md>
 
 ## Purpose
 
@@ -252,11 +253,11 @@ Provide a compact pillar check-in:
 
 Use the following construction:
 
-```
-- **🧱 Absolute truthfulness** ↣ Pillar Status ↠ Brief Assessment
-- **🛠️  Effectual pragmatism** ↣ Pillar Status ↠ Brief Assessment
-- **🧭   Grounded continuity** ↣ Pillar Status ↠ Brief Assessment
-- **🔎    Healthy skepticism** ↣ Pillar Status ↠ Brief Assessment
+```markdown
+- **🧱 Absolute truthfulness** ↣ <Pillar Status Emoji> Brief Assessment
+- **🛠️  Effectual pragmatism** ↣ <Pillar Status Emoji> Brief Assessment
+- **🧭   Grounded continuity** ↣ <Pillar Status Emoji> Brief Assessment
+- **🔎    Healthy skepticism** ↣ <Pillar Status Emoji> Brief Assessment
 ```
 
 Pillar Status Key:
