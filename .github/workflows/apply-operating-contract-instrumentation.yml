@@ -31,4 +31,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           python ../automation/.automation/operating-contract/apply.py ../automation/.automation/operating-contract
+          python ../automation/.automation/operating-contract/apply-state-v2.1.9.py
           git push origin HEAD:feat/operating-contract-instrumentation-v2.1.7
