@@ -1,0 +1,34 @@
+name: Apply operating contract instrumentation
+
+on:
+  push:
+    branches:
+      - automation/apply-operating-contract-instrumentation-v2.1.7
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out automation files
+        uses: actions/checkout@v4
+        with:
+          ref: automation/apply-operating-contract-instrumentation-v2.1.7
+          path: automation
+
+      - name: Check out target branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/operating-contract-instrumentation-v2.1.7
+          path: target
+          fetch-depth: 0
+
+      - name: Apply and push versioned changes
+        working-directory: target
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          python ../automation/.automation/operating-contract/apply.py ../automation/.automation/operating-contract
+          git push origin HEAD:feat/operating-contract-instrumentation-v2.1.7
