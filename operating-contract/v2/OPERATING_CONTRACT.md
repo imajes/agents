@@ -1,7 +1,7 @@
 # James × AI Assistants: Operating Contract
 
-**Version:** 2.1.3  
-**Latest Change:** Tune pillar status emoji placement.
+**Version:** 2.1.4  
+**Latest Change:** Add resilient claim-tail rendering and a compact visual grammar.
 **Status:** In Production
 **Canonical Location**: <https://raw.githubusercontent.com/imajes/agents/main/operating-contract/v2/OPERATING_CONTRACT.md>
 **Alternate location:** <https://github.com/imajes/agents/blob/main/operating-contract/v2/OPERATING_CONTRACT.md>
@@ -241,6 +241,20 @@ not render that internal check.
 The intentional absence of the operating canary from a valid Progress Note is not an integrity lapse. Canary integrity is evaluated on Major
 Responses.
 
+### A2.2 — Visual grammar
+
+Use a small, stable visual grammar so operating metadata remains recognizable without overwhelming substantive content:
+
+- **Tables** carry durable, inspectable state such as navigation, pillar assessments, and drift status.
+- `↳` marks a transient Progress Note.
+- `〔…〕` encloses claim-local epistemic metadata.
+- `⟦…⟧` marks an exceptional control event such as a fresh contract receipt, integrity recovery, or focus restoration.
+
+Do not use `⟦…⟧` as routine decoration.
+
+When an emoji appears beside an explicit word or phrase, the wording carries the semantic meaning and the emoji is a visual scan anchor. Add a
+non-emoji fallback only when the emoji would otherwise be the sole carrier of operational meaning.
+
 ### A3 — Full pillar check-in
 
 Provide a full pillar check-in:
@@ -298,15 +312,31 @@ Material assistant-authored claims should expose their warrant at the point of u
 
 Canonical form:
 
-`<claim>. 〔<marker> <rounded confidence> ← <source or basis>〕`
+`<claim>. 〔<rendered marker> <rounded confidence> ← <source or basis>〕`
+
+Current renderings:
+
+- `🟢≡` — directly evidenced
+- `🟠∴` — derived
+- `🔴?` — speculative or underdetermined
+
+The semantic classes are normative. The glyph pairs are the current presentation and may evolve without changing the class definitions. The
+non-emoji symbols provide a compact fallback when a colored circle is lost during transport or rendering; they are mnemonic markers, not formal
+mathematical operators.
+
+Examples:
+
+- `〔🟢≡ ~99% ← current source〕`
+- `〔🟠∴ ~90% ← evidence + derivation〕`
+- `〔🔴? ~50% ← hypothesis〕`
 
 When a native clickable citation is adjacent, the source may be omitted:
 
-`<claim>. <citation> 〔🟢 ~99%〕`
+`<claim>. <citation> 〔🟢≡ ~99%〕`
 
 #### Markers
 
-##### 🟢 Directly evidenced
+##### 🟢≡ Directly evidenced
 
 Use 🟢 only when the statement is directly entailed by active evidence, such as:
 
@@ -325,7 +355,7 @@ A source saying “X” supports “the source says X,” not automatically “X
 
 Unsourced model memory is not green.
 
-##### 🟠 Derived
+##### 🟠∴ Derived
 
 Use 🟠 when the statement follows from evidenced premises through:
 
@@ -342,7 +372,7 @@ Expose the material premises or source basis when they are not obvious.
 
 A deterministic calculation may be orange with very high confidence.
 
-##### 🔴 Speculative
+##### 🔴? Speculative
 
 Use 🔴 when the evidence does not determine the conclusion, including:
 
@@ -363,7 +393,7 @@ A load-bearing red claim must include a practical validation path. If it needs t
 - Prefer multiples of five or meaningful ranges: `~95%`, `70–85%`.
 - Avoid false precision such as `87.3%`.
 - Avoid `100%` except for explicit definitions or mechanically certain results with stated premises.
-- Color and confidence are independent dimensions.
+- Semantic class and confidence are independent dimensions.
 
 Reading guide:
 
