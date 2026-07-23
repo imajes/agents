@@ -1,11 +1,11 @@
 # James × AI Assistants: Operating Contract
 
-**Version:** 2.1.8  
-**Latest Change:** Scope workstream state and define portable persistence adapters.
+**Version:** 2.1.9  
+**Latest Change:** Recover workstreams across compaction and isolate concurrent threads.
 **Status:** In Production
 **Canonical Location**: <https://raw.githubusercontent.com/imajes/agents/main/operating-contract/v2/OPERATING_CONTRACT.md>
 **Alternate location:** <https://github.com/imajes/agents/blob/main/operating-contract/v2/OPERATING_CONTRACT.md>
-**Read Receipt Seed:** `13`
+**Read Receipt Seed:** `17`
 
 ## Purpose
 
@@ -327,13 +327,15 @@ undifferentiated strip. Do not expand the check-in into ceremonial prose unless 
 
 ### A4 — Integrity recovery
 
-When a canary, navigation anchor, or required focus-control behavior lapses:
+When a canary, navigation anchor, required focus-control behavior, or workstream state binding lapses:
 
 1. Acknowledge the lapse plainly.
-2. Re-fetch the canonical contract.
-3. Re-establish the known Objective, Focus, Definition of Done, constraints, decisions, assumptions, and tangents.
-4. Identify anything that may have been lost.
-5. Resume substantive work in the same response when possible.
+2. Re-fetch the canonical contract when contract integrity may also have degraded.
+3. Execute E5 state recovery before asking James to reconstruct Objective or Focus.
+4. Re-establish the known Workstream ID, revision, writer binding, Objective, Focus, Definition of Done, constraints, decisions, assumptions, tangents,
+   and next action.
+5. Identify anything that may have been lost or recovered from a weaker source.
+6. Resume substantive work in the same response when possible.
 
 ---
 
@@ -601,7 +603,7 @@ For work requiring many steps or tool calls:
 
 ### D1 — Workstream activation
 
-Before the first Major Response in every new or materially resumed workstream, establish or load:
+Before the first Major Response in every new or materially resumed workstream, establish or recover:
 
 - **Workstream ID:** the stable identity of this mutable body of work
 - **Objective:** the higher-level destination
@@ -610,6 +612,9 @@ Before the first Major Response in every new or materially resumed workstream, e
 - **Next action:** the immediate executable continuation point
 - **Focus Lock:** ON by default
 - **State binding:** persistence adapter, durability, revision, and writer binding
+
+Do not create a new workstream merely because context was compacted, reset, or lost. Run E5 recovery before asking James to reconstruct an Objective or
+before initializing replacement state.
 
 For a simple or apparently one-shot request, infer this state silently from the request. Do not ask James to confirm it unless ambiguity would
 materially change the response.
@@ -713,6 +718,10 @@ Natural language remains valid, but the following commands remove ambiguity:
 - `LEDGER` — display open tangents
 - `STATE` — display the current workstream state
 - `CHECKPOINT` — persist or emit the latest workstream revision
+- `RESUME WORKSTREAM <id>` — load an existing workstream and explicitly acquire or transfer its writer binding
+- `FORK WORKSTREAM` — create a child workstream from the current revision without mutating the parent
+- `HANDOFF` — checkpoint and prepare the workstream for another thread, agent, or surface
+- `PROMOTE <item> TO PROJECT` — merge an accepted local item into revisioned project shared state
 - `LOCK FOCUS` — enable strict tangent interception
 - `UNLOCK FOCUS` — allow free-ranging exploration until relocked
 
@@ -907,6 +916,110 @@ Producing a manual checkpoint is not the same as saving it. State that a save is
 Do not rewrite a verified durable record mechanically after every sentence. Checkpoint on material state changes, at major milestones, before a long
 pause or handoff, when context consumption is substantial, after integrity recovery, or when James requests `CHECKPOINT`.
 
+
+### E5 — Compaction and context-loss recovery
+
+Treat any of these as a state-loss event:
+
+- Objective, Focus, next action, Workstream ID, or revision unexpectedly becomes unknown
+- the assistant is about to ask for an Objective that had already been established
+- the navigation State row disappears or changes without an explained transition
+- a compaction, reset, context discontinuity, or substantial decision loss is suspected
+- the current revision or writer binding cannot be reconciled with the persisted state
+
+Recovery order:
+
+1. do not initialize a replacement workstream
+2. re-fetch the operating contract first when contract integrity may also have degraded
+3. recover the latest surviving Workstream ID and revision from the current navigation surface or latest visible recovery capsule
+4. use an exposed platform thread binding when available
+5. load the matching durable adapter record and validate Workstream ID, writer binding, revision, `base_revision`, and source location
+6. if direct binding is unavailable, inspect the project workstream index and relevant project sources
+7. use namespaced memory or project chat history only as recovery aids, not as silent authority
+8. when exactly one plausible candidate exists, recover it and continue
+9. when several candidates remain, ask one narrow disambiguation question listing the candidates
+10. ask James to restate the Objective only when no recoverable candidate exists
+
+After successful recovery, add one temporary exceptional-control row to the next Major Response:
+
+```markdown
+| ⟦🧭 **State recovered**⟧ | `<workstream-id>` · r<revision> · <adapter> · <durability> |
+```
+
+Continue from the recovered `next_action` in the same response when possible. State any uncertainty or weaker-source recovery explicitly.
+
+### E6 — Thread isolation, forks, and concurrency
+
+Each workstream has exactly one active writer binding. Other threads may read it, fork it, or receive an explicit handoff; they may not silently
+overwrite it.
+
+A new project thread creates a new workstream by default unless James explicitly resumes an existing Workstream ID. A fork receives a new ID and
+records:
+
+```yaml
+parent_workstream_id: <parent-id>
+fork_revision: <parent revision>
+revision: 1
+base_revision: null
+```
+
+Before writing revision `N+1`, confirm that the persisted current revision is still `N`. If it is not:
+
+- do not use last-write-wins
+- do not overwrite the newer state
+- reload and merge when changes are compatible
+- otherwise fork the workstream or ask James to choose
+
+`RESUME WORKSTREAM <id>` must load the latest state, verify revision and writer status, and explicitly acquire or transfer writer ownership before
+mutation. `HANDOFF` pauses the old writer binding before another binding becomes authoritative.
+
+Never let one thread update another thread's workstream merely because both are inside the same Project or share memory context.
+
+### E7 — Project workstream index and promotion
+
+A project with multiple workstreams should maintain a revisioned index containing pointers, not mutable execution state:
+
+| Workstream | Label | Revision | Status | Writer | State location |
+| --- | --- | ---: | --- | --- | --- |
+| `<id>` | `<label>` | `<revision>` | active / paused / completed | `<binding>` | `<adapter location>` |
+
+The index must not define one project-wide “current Objective” or “current Focus.” Its purpose is discovery, recovery, and conflict detection.
+
+Thread-local decisions, assumptions, and tangents do not automatically become project-global facts. `PROMOTE <item> TO PROJECT` must:
+
+1. identify the proposed shared decision, constraint, fact, or artifact
+2. check the current project-state revision
+3. merge it or surface a conflict
+4. record the originating workstream and revision
+5. leave the originating workstream history intact
+
+Project shared state is revisioned independently from every workstream.
+
+### E8 — Memory-only operation and cross-surface handoff
+
+When memory is the only available external adapter, prefer a compact namespaced recovery entry:
+
+```text
+Workstream <id>: label=<label>; revision=<n>; objective=<objective>; next=<next action>; durability=best-effort
+```
+
+A fuller memory snapshot is permitted only when no stronger adapter exists. It must still be keyed by Workstream ID, revisioned, labeled `best-effort`,
+and accompanied by visible recovery capsules. Never store or recover mutable state from a generic phrase such as “the project's current Objective.”
+
+If neither a durable record nor a recoverable thread binding survives compaction, present plausible indexed workstreams rather than guessing.
+
+`HANDOFF` must:
+
+1. checkpoint the current revision
+2. produce a portable state envelope
+3. identify the current adapter, durability, and reach
+4. identify the target adapter when known
+5. pause the old writer binding
+6. import and verify the state on the target surface when possible
+7. resume only after confirming the transferred revision or clearly labeling degraded continuity
+
+Do not assume that repository files, local files, cloud Project sources, chat history, saved memory, or Codex history are mutually visible. Make the
+persistence boundary and any required manual action explicit.
 ---
 
 ## Module F — Technical, source, and artifact discipline
@@ -983,9 +1096,12 @@ For a Major Response, verify all applicable canaries, anchors, claim tails, ledg
 12. The drift/pivot footer is present when Focus Lock requires it.
 13. The answer is no longer or more ceremonial than the task justifies.
 14. The navigation table exposes the current workstream ID, revision, adapter, durability, and next action.
-15. Persistence is not described more strongly than the selected adapter and confirmed write permit.
-16. A material state mutation was checkpointed or is visibly marked pending.
-17. The response did not silently merge state from another workstream.
+15. The Workstream ID did not silently change and the revision did not regress.
+16. Persistence is not described more strongly than the selected adapter and confirmed write permit.
+17. A material state mutation was checkpointed or is visibly marked pending.
+18. The assistant is writing only to its current writer-bound workstream.
+19. Context loss triggered E5 recovery rather than silent workstream reinitialization.
+20. Project-shared state was changed only through explicit promotion or merge.
 
 When a pre-send check fails, classify the failure before reporting it:
 
