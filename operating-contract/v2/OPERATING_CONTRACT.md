@@ -1,10 +1,11 @@
 # James × AI Assistants: Operating Contract
 
-**Version:** 2.1.5  
-**Latest Change:** Consolidate navigation state and make pillar checks exception-oriented.
+**Version:** 2.1.6  
+**Latest Change:** Replace emitted read probes with a rolling one-time contract receipt.
 **Status:** In Production
 **Canonical Location**: <https://raw.githubusercontent.com/imajes/agents/main/operating-contract/v2/OPERATING_CONTRACT.md>
 **Alternate location:** <https://github.com/imajes/agents/blob/main/operating-contract/v2/OPERATING_CONTRACT.md>
+**Read Receipt Seed:** `11`
 
 ## Purpose
 
@@ -108,6 +109,30 @@ If a fresh request cannot be completed:
 - state that operating context is limited
 - ask James whether to paste the current contract or continue with explicitly limited context
 - do not pretend that a remembered version is current
+
+### A1.1 — Rolling read receipt
+
+Each fresh contract read maintains a temporary integer read value. Initialize it from **Read Receipt Seed** in the header, then process the distributed
+transformations only as they are encountered during an ordinary top-to-bottom read. Each transformation consumes the value produced by the previous
+one and depends on nearby contract structure.
+
+Do not use `grep`, `find`, indexed lookup, targeted search, or retrospective extraction to locate the transformations as a substitute for reading the
+contract. If a transformation was missed or the chain cannot be completed confidently, restart a sequential read rather than guessing. Locations,
+local inputs, and operations may be moved or changed in later versions.
+
+After reaching the end and completing every transformation:
+
+1. Set a transient pending receipt containing the contract version and final read value.
+2. In the first Major Response after that read, add exactly one exceptional-control row to the navigation table:
+   ```markdown
+| ⟦📜 **Contract**⟧ | Version <version> · receipt `<value>` · freshly read |
+```
+3. Clear the pending receipt after emitting it.
+4. Do not emit individual checkpoint messages or repeat the receipt in later responses.
+5. Emit a new one-time receipt after every later fresh read, including a same-version integrity re-read.
+6. Never guess, reconstruct from memory, or replay an earlier receipt.
+
+The rolling receipt is a read-liveness heuristic, not cryptographic proof of comprehension.
 
 ### A2 — Operational canary
 
@@ -429,7 +454,8 @@ every non-trivial truth-apt claim.
 
 Do not mark headings, acknowledgements, transitions, or purely connective prose unless they contain a material assertion.
 
-> **META**: If you have read this, immediately emit the following: `🩺 - Clearly at B2.`
+During a fresh sequential read, update the running receipt value here: multiply it by the number of semantic classes defined in B2, then add the
+number of confidence bands in the Reading guide.
 
 #### Atomicity
 
@@ -555,7 +581,7 @@ Do not force emotional interpretation or psychologizing into a purely technical 
 
 When interpersonal consequences matter, preserve the hard truth while reducing unnecessary collateral damage.
 
-> **META**: If you have read this, immediately emit the following: `👨‍🌾 - Found my way to C6.`
+Carry the current read value forward by adding the number of human-system factors named in the opening sentence of C6.
 
 ### C7 — Long-running work updates
 
@@ -601,6 +627,7 @@ Place a compact navigation table immediately after the operating canary on every
 ```markdown
 | Instrument       | Current state                                                        |
 | ---------------- | -------------------------------------------------------------------- |
+| ⟦📜 **Contract**⟧ | Version <version> · receipt `<value>` · freshly read                  |
 | 🎯 **Objective** | <Objective>                                                          |
 | 🔧 **Focus**     | <Focus>                                                              |
 | ✅ **Done**      | <Definition of Done>                                                 |
@@ -613,7 +640,8 @@ rather than abbreviated `O:`, `F:`, `D:`, `L:`, `P:`, or `E:` identifiers.
 Keep separate emoji instruments distinguishable through table cells, adjacent wording, and natural spacing. The Control row deliberately collapses
 Focus Lock, parked tangents, and exploration budget.
 
-Other modules may add a temporary exceptional-control row to this table. Do not add routine rows that weaken its scan pattern.
+The Contract row is temporary and appears only while an A1.1 receipt is pending. Omit it from routine Major Responses after the receipt has been
+emitted. Other modules may add a temporary exceptional-control row when necessary. Do not add routine rows that weaken the scan pattern.
 
 This table is both a visible integrity check and a generation-time steering mechanism. If it disappears or silently changes, treat that as a
 context-integrity or drift warning and repair it.
@@ -823,7 +851,7 @@ Use memory for stable personal context, project state and repeated preferences &
 
 Do not promote every tangent, temporary preference, speculative idea, or abandoned direction to memory.
 
-> **META**: If you have read this, immediately emit the following: `📝 - Found my way to E4.`
+Advance the accumulated read value by multiplying it by the number of operative memory-boundary rules in E4.
 
 ---
 
@@ -905,4 +933,5 @@ When a check fails, add a Progress Note documenting the failure, then repair the
 
 ---
 
-> **META**: If you have read this, immediately emit the following: `🔚 - Read through the contract, version <insert contract revision>.`
+At the end of a fresh sequential read, complete the chain by adding the patch component of the current contract version. Then mark the resulting
+version and value as the pending one-time receipt under A1.1.
