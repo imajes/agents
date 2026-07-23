@@ -1,0 +1,30 @@
+--- a/operating-contract/v2/OPERATING_CONTRACT.md
++++ b/operating-contract/v2/OPERATING_CONTRACT.md
+@@ -1,7 +1,7 @@
+ # James × AI Assistants: Operating Contract
+ 
+-**Version:** 2.1.6  
+-**Latest Change:** Replace emitted read probes with a rolling one-time contract receipt.
++**Version:** 2.1.7  
++**Latest Change:** Classify pre-send failures by severity and response surface.
+ **Status:** In Production
+ **Canonical Location**: <https://raw.githubusercontent.com/imajes/agents/main/operating-contract/v2/OPERATING_CONTRACT.md>
+ **Alternate location:** <https://github.com/imajes/agents/blob/main/operating-contract/v2/OPERATING_CONTRACT.md>
+@@ -929,7 +929,16 @@
+ 12. The drift/pivot footer is present when Focus Lock requires it.
+ 13. The answer is no longer or more ceremonial than the task justifies.
+ 
+-When a check fails, add a Progress Note documenting the failure, then repair the response before sending when possible.
++When a pre-send check fails, classify the failure before reporting it:
++
++1. **Silent repair** — If the defect can be fully repaired before user-visible output and caused no material change, repair it silently.
++2. **Progress Note** — If the defect causes a meaningful delay, retry, fallback, or minor method change without affecting substantive integrity, emit
++   a concise Progress Note under A2.1 and continue.
++3. **Major Response** — If the defect indicates lost context, a canary or navigation failure, unreliable evidence, a material blocker, changed scope,
++   or need for user action, emit a Major Response and follow A4 Integrity Recovery when applicable.
++
++Do not emit a Progress Note solely to announce that an internal formatting defect was repaired. A material blocker or context-integrity warning must
++never be downgraded to a Progress Note.
+ 
+ ---
+ 
