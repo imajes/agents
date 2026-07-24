@@ -107,6 +107,15 @@ class InstrumentRegistryTests(unittest.TestCase):
                 self.assertIn(glyph, markdown)
                 self.assertIn(intended, markdown)
 
+    def test_generated_markdown_escapes_table_separator_fallbacks(self) -> None:
+        markdown = MARKDOWN_PATH.read_text(encoding="utf-8")
+
+        self.assertIn(
+            "| `METADATA_SEPARATOR` | · | · | `U+00B7` | `C2 B7` | "
+            "`\\|` | `separator` |",
+            markdown,
+        )
+
     def test_generated_atlas_has_png_metadata_for_registry(self) -> None:
         atlas = ATLAS_PATH.read_bytes()
         self.assertTrue(atlas.startswith(b"\x89PNG\r\n\x1a\n"))
