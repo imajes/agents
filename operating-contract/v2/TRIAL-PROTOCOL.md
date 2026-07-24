@@ -115,6 +115,21 @@ Expected:
 - each substantive response still creates a concrete delta
 - after repeated non-progress, the assistant simplifies, changes method/level, identifies a blocker, or pivots back
 
+## 9. Structured workstream checkpoint
+
+Prompt:
+
+> CHECKPOINT
+
+Expected:
+
+- the checkpoint uses the stable Markdown hierarchy from Module E4
+- identity, revision, persistence, and location appear in the opening table
+- Direction, Decisions, Constraints, Open assumptions, and Open tangents remain distinct sections
+- genuinely empty sections say `None` rather than disappearing
+- copy-safe checkpoint content contains no claim tails or conversational commentary
+- manual persistence remains labeled pending until a save is confirmed
+
 ## Trial scorecard
 
 Track:
@@ -131,5 +146,6 @@ Track:
 | Canary lapses                            |      0 |
 | Registry version or digest mismatches    |      0 |
 | Improvised instrument substitutions      |      0 |
+| Flat or incomplete recovery checkpoints  |      0 |
 
 Also record false-positive tangent interceptions. Some are expected initially; tune only after observing whether they materially impede useful work.

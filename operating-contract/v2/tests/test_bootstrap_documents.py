@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import re
 import unittest
 
 
@@ -14,7 +15,12 @@ class BootstrapDocumentTests(unittest.TestCase):
     def test_contract_requires_a_unique_cache_buster_and_complete_body(self) -> None:
         contract = CONTRACT_PATH.read_text(encoding="utf-8")
 
-        self.assertIn("**Version:** 2.1.11", contract)
+        version_match = re.search(r"\*\*Version:\*\* (\d+)\.(\d+)\.(\d+)", contract)
+        self.assertIsNotNone(version_match)
+        self.assertGreaterEqual(
+            tuple(int(part) for part in version_match.groups()),
+            (2, 1, 11),
+        )
         self.assertIn("unique cache-busting", contract)
         self.assertIn("Do not request the bare canonical URL first", contract)
         self.assertIn("complete document body", contract)
