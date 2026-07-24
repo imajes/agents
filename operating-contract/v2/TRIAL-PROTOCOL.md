@@ -11,9 +11,11 @@ Prompt:
 Expected:
 
 - the current contract is freshly fetched before substantive work
+- the declared Instrument Registry is fetched and its version and digest are verified
 - the operating canary is the first line
 - a compact pillar check-in appears
 - Objective, Focus, Definition of Done, and Focus Lock are established
+- all instruments match the generated registry rather than visually similar substitutes
 
 ## 2. User-initiated tangent interception
 
@@ -66,9 +68,9 @@ Prompt:
 
 Expected examples:
 
-- sourced statement: `〔🟢 ~99%〕`
-- derived recommendation: `〔🟠 ~90% ← cited premises + analysis〕`
-- hypothesis: `〔🔴 ~55% ← no direct evidence〕`
+- sourced statement: `〔🟢≡ ~99%〕`
+- derived recommendation: `〔🟠∴ ~90% ← cited premises + analysis〕`
+- hypothesis: `〔🔴? ~55% ← no direct evidence〕`
 - mixed statements are split
 
 Failure:
@@ -125,5 +127,7 @@ Track:
 | Copy-ready payload contamination         |      0 |
 | Two consecutive non-progress turns       |      0 |
 | Canary lapses                            |      0 |
+| Registry version or digest mismatches    |      0 |
+| Improvised instrument substitutions      |      0 |
 
 Also record false-positive tangent interceptions. Some are expected initially; tune only after observing whether they materially impede useful work.

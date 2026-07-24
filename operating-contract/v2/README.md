@@ -3,11 +3,15 @@
 Files:
 
 - `OPERATING_CONTRACT.md` — full revised operating contract
-- `CHATGPT-PERSONALIZATION.md` — copy-ready field values and setup guidance
-- `PERSONALIZATION-FIELDS.json` — the same field values in machine-readable form
+- `CUSTOM_INSTRUCTIONS.md` — lean bootstrap wording for Personalization
 - `PROJECT-INSTRUCTIONS-TEMPLATE.md` — required bootstrap for scoped Projects
 - `WORKSTREAM-STATE.md` — dynamic state capsule for long-running work
 - `TRIAL-PROTOCOL.md` — behavioral tests and scorecard
+- `instruments/registry.json` — ASCII-only authoritative instrument registry
+- `instruments/registry.md` — generated human-readable registry with rendered glyphs
+- `instruments/atlas.png` — generated visual fallback for glyph inspection
+- `scripts/generate_instrument_registry.py` — registry validation and artifact generator
+- `tests/test_instrument_registry.py` — registry, digest, rendering, and atlas checks
 
 Recommended order:
 
