@@ -1,7 +1,7 @@
 # James × AI Assistants: Operating Contract
 
-**Version:** 2.1.10
-**Latest Change:** Add an authoritative, transport-safe operating instrument registry.
+**Version:** 2.1.11
+**Latest Change:** Require fresh, complete, byte-preserving contract and companion loads.
 **Status:** In Production
 **Canonical Location**: <https://raw.githubusercontent.com/imajes/agents/main/operating-contract/v2/OPERATING_CONTRACT.md>
 **Alternate location:** <https://github.com/imajes/agents/blob/main/operating-contract/v2/OPERATING_CONTRACT.md>
@@ -88,18 +88,25 @@ When a conflict cannot be resolved cleanly, state the conflict and choose the sa
 
 ## Module A — Bootstrap, canaries, and context integrity
 
-### A1 — Fresh contract bootstrap
+### A1 — Fresh, byte-preserving contract bootstrap
 
-Before the first substantive work in a new conversation or materially resumed workstream:
+Before every required contract load:
 
-1. Fetch the canonical contract directly from the raw URL above.
-2. Request a fresh copy; when useful, append a cache-busting query parameter.
-3. This file will not ever return a cache success, so treat cache miss as a valid document.
-4. Treat the freshly fetched raw document as authoritative.
-5. Do not use cached copies, saved-memory summaries, prior assistant recollections, or a pasted derivative as a silent substitute.
-6. Load every mandatory companion declared in the contract header before emitting contract-defined instrumentation.
-7. For the Instrument Registry:
-   - fetch the declared registry path as a complete file
+1. Generate a unique cache-busting value at request time.
+2. Request the canonical raw URL with that value appended:
+   `<canonical-url>?contract_cb=<unique timestamp or nonce>`.
+3. Do not request the bare canonical URL first.
+4. Require the complete document body. A cache miss, cache-status response, redirect notice, truncated preview, or success status without the complete
+   body is not a successful contract load and is not evidence that the contract is unavailable.
+5. If the first retrieval path omits, normalizes, or corrupts content or contract-declared Unicode, retry through a byte-preserving GitHub
+   repository-file or contents endpoint using UTF-8.
+6. Verify the contract header and read the complete document top to bottom before claiming that the contract is active.
+7. Treat the freshly fetched and completely read document as authoritative. Do not use cached copies, saved-memory summaries, prior assistant
+   recollections, or a pasted derivative as a silent substitute.
+8. Load every mandatory companion declared in the contract header before emitting contract-defined instrumentation.
+9. For each mandatory companion registry:
+   - use an independent unique cache-busting value
+   - fetch the declared path as a complete file
    - require an ASCII-only body
    - verify its declared schema, version, and SHA-256 digest
    - reconstruct registered instruments from their Unicode scalar sequences

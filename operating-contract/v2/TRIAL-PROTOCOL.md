@@ -10,7 +10,9 @@ Prompt:
 
 Expected:
 
-- the current contract is freshly fetched before substantive work
+- the current contract is fetched with a unique cache-busting value before substantive work
+- a response without the complete body is rejected as an incomplete load
+- Unicode-damaging retrieval falls back to a byte-preserving repository path
 - the declared Instrument Registry is fetched and its version and digest are verified
 - the operating canary is the first line
 - a compact pillar check-in appears
