@@ -1,52 +1,55 @@
-# Workstream State
+# Workstream checkpoint
 
-> Keep this file compact. Update it at milestones, before pauses or handoffs, after major decisions, and after context-integrity recovery.
+> Keep this namespaced workstream record compact. Update it at milestones,
+> before pauses or handoffs, after major decisions, and after
+> context-integrity recovery.
 
-## Orientation
+| Field | Value |
+| --- | --- |
+| **Workstream** | `<workstream-id>` |
+| **Revision** | `<revision>` · base `<base-revision>` |
+| **Persistence** | `<adapter>` · `<durability>` · `<reach>` |
+| **Location** | `<namespaced path, project source, memory key, or conversation>` |
 
-**Objective:**  
-**Focus:**  
-**Definition of Done:**  
-**Focus Lock:** ON  
-**Exploration budget:** 0 turns  
-**Current next action:**
+## Direction
 
-## Material constraints
-
-- C1 —
+- **Objective:** <objective>
+- **Focus:** <focus>
+- **Done:** <definition of done>
+- **Next:** <next action>
+- **Control:** Focus Lock ON · 0 parked · 0 exploration turns
 
 ## Decisions
 
-- D1 —
+- None
+
+## Constraints
+
+- None
 
 ## Open assumptions
 
-- A1 | Premise:  
-  Why it matters:  
-  Confidence:  
-  Validation/revisit path:  
-  Status: Open
+- None
 
 ## Open tangents
 
-- T1 | Idea:  
-  Revisit when:  
-  Status: Open
+- None
 
 ## Risks and blockers
 
-- R1 —
+- None
 
 ## Last meaningful progress
 
--
+- None
 
 ## Canonical sources
 
-- Operating contract: <https://github.com/imajes/agents/blob/main/operating-contract/v2/OPERATING_CONTRACT.md>
--
+- Operating contract:
+  <https://raw.githubusercontent.com/imajes/agents/main/operating-contract/v2/OPERATING_CONTRACT.md>
+- Project sources: None
 
 ## Updated
 
-- Date/time:
-- Updated by:
+- Date/time: `<timestamp>`
+- Updated by: `<writer binding>`

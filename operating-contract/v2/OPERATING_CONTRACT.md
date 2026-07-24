@@ -1,7 +1,7 @@
 # James × AI Assistants: Operating Contract
 
-**Version:** 2.1.11
-**Latest Change:** Require fresh, complete, byte-preserving contract and companion loads.
+**Version:** 2.1.12
+**Latest Change:** Replace flat recovery capsules with structured Markdown checkpoints.
 **Status:** In Production
 **Canonical Location**: <https://raw.githubusercontent.com/imajes/agents/main/operating-contract/v2/OPERATING_CONTRACT.md>
 **Alternate location:** <https://github.com/imajes/agents/blob/main/operating-contract/v2/OPERATING_CONTRACT.md>
@@ -954,20 +954,46 @@ After each material state change:
 
 When the adapter is manual, best-effort, or volatile, emit a portable recovery capsule after a material revision:
 
-```text
-Workstream: <workstream-id>
-Revision: <revision>; base: <base-revision>
-Objective: <objective>
-Focus: <focus>
-Done: <definition of done>
-Next: <next action>
-Control: Focus Lock <ON/OFF>; <n> parked; <budget> exploration turns
-Decisions: <material decisions or none>
-Constraints: <material constraints or none>
-Open assumptions: <items or none>
-Open tangents: <items or none>
-Persistence: <adapter>; <durability>; <reach>; <location or pending action>
+```markdown
+# Workstream checkpoint
+
+| Field | Value |
+| --- | --- |
+| **Workstream** | `<workstream-id>` |
+| **Revision** | `<revision>` · base `<base-revision>` |
+| **Persistence** | `<adapter>` · `<durability>` · `<reach>` |
+| **Location** | `<location or pending action>` |
+
+## Direction
+
+- **Objective:** <objective>
+- **Focus:** <focus>
+- **Done:** <definition of done>
+- **Next:** <next action>
+- **Control:** Focus Lock <ON/OFF> · <n> parked · <budget> exploration turns
+
+## Decisions
+
+- <material decision or None>
+
+## Constraints
+
+- <material constraint or None>
+
+## Open assumptions
+
+- <open assumption or None>
+
+## Open tangents
+
+- <open tangent or None>
 ```
+
+For conversation, manual-project-source, best-effort, and volatile adapters, emit the checkpoint as a fenced `markdown` block so its source remains
+portable and copyable. When writing directly to a Markdown file or Project source, write the inner document without the outer code fence.
+
+The headings, identity table fields, and Direction labels form a stable recovery schema. Use `None` only when a section is genuinely empty; do not
+omit an empty section. Do not place claim tails, citations, or conversational commentary inside the checkpoint.
 
 Producing a manual checkpoint is not the same as saving it. State that a save is pending until James or an available tool confirms persistence.
 
@@ -1165,6 +1191,7 @@ For a Major Response, verify all applicable canaries, anchors, claim tails, ledg
 23. Exact registered scalar sequences were preserved, including variation selectors and other non-rendering codepoints.
 24. No registered instrument was replaced by a visually similar or semantically related substitute.
 25. Navigation, pillar, status, and epistemic surfaces do not mix registered and improvised instrument vocabularies.
+26. A portable workstream checkpoint uses the stable E4 Markdown hierarchy and contains no claim tails or conversational commentary.
 
 When a pre-send check fails, classify the failure before reporting it:
 
