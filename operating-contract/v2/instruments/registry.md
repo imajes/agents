@@ -40,7 +40,7 @@
 | `EPISTEMIC_CLOSE` | 〕 | 〕 | `U+3015` | `E3 80 95` | `]` | `delimiter` |
 | `CONTROL_OPEN` | ⟦ | ⟦ | `U+27E6` | `E2 9F A6` | `[[` | `delimiter` |
 | `CONTROL_CLOSE` | ⟧ | ⟧ | `U+27E7` | `E2 9F A7` | `]]` | `delimiter` |
-| `METADATA_SEPARATOR` | · | · | `U+00B7` | `C2 B7` | `|` | `separator` |
+| `METADATA_SEPARATOR` | · | · | `U+00B7` | `C2 B7` | `\|` | `separator` |
 
 ## Interpretation
 

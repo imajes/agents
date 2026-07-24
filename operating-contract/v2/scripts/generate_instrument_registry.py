@@ -142,6 +142,14 @@ def registry_digest(raw: bytes) -> str:
     return hashlib.sha256(raw).hexdigest()
 
 
+def markdown_table_cell(value: str) -> str:
+    return value.replace("|", "\\|").replace("\n", " ")
+
+
+def markdown_inline_code(value: str) -> str:
+    return f"`{markdown_table_cell(value)}`"
+
+
 def render_markdown(registry: dict[str, Any], digest: str) -> str:
     lines = [
         "# Operating Instrument Registry",
@@ -162,9 +170,13 @@ def render_markdown(registry: dict[str, Any], digest: str) -> str:
         scalars = " ".join(entry["unicode_scalars"])
         lines.append(
             "| "
-            f"`{entry['id']}` | {glyph} | {intended} | `{scalars}` | "
-            f"`{entry['utf8_hex']}` | `{entry['ascii_fallback']}` | "
-            f"`{entry['role']}` |"
+            f"{markdown_inline_code(entry['id'])} | "
+            f"{markdown_table_cell(glyph)} | "
+            f"{markdown_table_cell(intended)} | "
+            f"{markdown_inline_code(scalars)} | "
+            f"{markdown_inline_code(entry['utf8_hex'])} | "
+            f"{markdown_inline_code(entry['ascii_fallback'])} | "
+            f"{markdown_inline_code(entry['role'])} |"
         )
 
     lines.extend(
