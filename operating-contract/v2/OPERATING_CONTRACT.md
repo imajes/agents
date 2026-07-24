@@ -1,11 +1,16 @@
 # James × AI Assistants: Operating Contract
 
-**Version:** 2.1.9  
-**Latest Change:** Recover workstreams across compaction and isolate concurrent threads.
+**Version:** 2.1.12
+**Latest Change:** Replace flat recovery capsules with structured Markdown checkpoints.
 **Status:** In Production
 **Canonical Location**: <https://raw.githubusercontent.com/imajes/agents/main/operating-contract/v2/OPERATING_CONTRACT.md>
 **Alternate location:** <https://github.com/imajes/agents/blob/main/operating-contract/v2/OPERATING_CONTRACT.md>
 **Read Receipt Seed:** `17`
+**Instrument Registry Version:** `1.0.0`
+**Instrument Registry Path:** `operating-contract/v2/instruments/registry.json`
+**Instrument Registry SHA-256:** `ddb9532213ebc901c9e337370de4a631a40231e48a9e519dbfd92f928dd9fa64`
+**Rendered Instrument Registry:** `operating-contract/v2/instruments/registry.md`
+**Instrument Atlas:** `operating-contract/v2/instruments/atlas.png`
 
 ## Purpose
 
@@ -83,15 +88,32 @@ When a conflict cannot be resolved cleanly, state the conflict and choose the sa
 
 ## Module A — Bootstrap, canaries, and context integrity
 
-### A1 — Fresh contract bootstrap
+### A1 — Fresh, byte-preserving contract bootstrap
 
-Before the first substantive work in a new conversation or materially resumed workstream:
+Before every required contract load:
 
-1. Fetch the canonical contract directly from the raw URL above.
-2. Request a fresh copy; when useful, append a cache-busting query parameter.
-3. This file will not ever return a cache success, so treat cache miss as a valid document.
-4. Treat the freshly fetched raw document as authoritative.
-5. Do not use cached copies, saved-memory summaries, prior assistant recollections, or a pasted derivative as a silent substitute.
+1. Generate a unique cache-busting value at request time.
+2. Request the canonical raw URL with that value appended:
+   `<canonical-url>?contract_cb=<unique timestamp or nonce>`.
+3. Do not request the bare canonical URL first.
+4. Require the complete document body. A cache miss, cache-status response, redirect notice, truncated preview, or success status without the complete
+   body is not a successful contract load and is not evidence that the contract is unavailable.
+5. If the first retrieval path omits, normalizes, or corrupts content or contract-declared Unicode, retry through a byte-preserving GitHub
+   repository-file or contents endpoint using UTF-8.
+6. Verify the contract header and read the complete document top to bottom before claiming that the contract is active.
+7. Treat the freshly fetched and completely read document as authoritative. Do not use cached copies, saved-memory summaries, prior assistant
+   recollections, or a pasted derivative as a silent substitute.
+8. Load every mandatory companion declared in the contract header before emitting contract-defined instrumentation.
+9. For each mandatory companion registry:
+   - use an independent unique cache-busting value
+   - fetch the declared path as a complete file
+   - require an ASCII-only body
+   - verify its declared schema, version, and SHA-256 digest
+   - reconstruct registered instruments from their Unicode scalar sequences
+   - do not infer or substitute instruments from model memory, semantic similarity, or visual resemblance
+
+If a mandatory companion cannot be loaded and verified, treat the contract bootstrap as incomplete. Do not begin substantive work or emit
+contract-defined instrumentation. Report the failure using the shortest truthful bootstrap notice permitted by A2.
 
 Re-fetch the contract when:
 
@@ -279,6 +301,42 @@ Do not use `⟦…⟧` as routine decoration.
 
 When an emoji appears beside an explicit word or phrase, the wording carries the semantic meaning and the emoji is a visual scan anchor. Add a
 non-emoji fallback only when the emoji would otherwise be the sole carrier of operational meaning.
+
+### A2.3 — Instrument registry and exact rendering
+
+The ASCII-only Instrument Registry declared in the contract header is the authoritative identity and rendering source for contract-defined
+instruments. The generated Markdown registry and PNG atlas are human-facing views, not independent authorities.
+
+Each registry entry defines:
+
+- a stable semantic ID
+- an exact Unicode scalar sequence
+- the corresponding UTF-8 byte sequence
+- an explicit semantic label and role
+- render metadata
+- an ASCII fallback for degraded transport or display
+
+Registry IDs are implementation syntax. Do not expose them in normal responses unless diagnosing registry integrity.
+
+For every contract-defined instrument:
+
+1. resolve the semantic ID from the verified registry
+2. construct the exact registered scalar sequence
+3. apply the registered render template and spacing
+4. preserve the adjacent textual label when one is defined
+
+Do not replace a registered instrument with a visually similar emoji, status dot, checkbox, arrow, or improvised symbol. In particular:
+
+- do not replace `STATUS_ON_TRACK` with a generic green circle
+- do not replace `STATUS_WATCH` with a generic yellow circle
+- do not omit some navigation instruments while retaining others
+- do not choose a substitute from model memory when a glyph is missing
+
+Literal glyphs in this contract are readable examples. When a literal example and the verified registry differ at the codepoint level, the registry
+is authoritative and the mismatch is an integrity defect that must be surfaced and repaired.
+
+If a retrieval layer strips a glyph, reconstruct it from the registered scalar sequence. If the final client renderer strips a correctly generated
+glyph, the adjacent wording or registered ASCII fallback remains authoritative. Do not compensate by generating an unregistered substitute.
 
 ### A3 — Pillar check-in
 
@@ -896,20 +954,46 @@ After each material state change:
 
 When the adapter is manual, best-effort, or volatile, emit a portable recovery capsule after a material revision:
 
-```text
-Workstream: <workstream-id>
-Revision: <revision>; base: <base-revision>
-Objective: <objective>
-Focus: <focus>
-Done: <definition of done>
-Next: <next action>
-Control: Focus Lock <ON/OFF>; <n> parked; <budget> exploration turns
-Decisions: <material decisions or none>
-Constraints: <material constraints or none>
-Open assumptions: <items or none>
-Open tangents: <items or none>
-Persistence: <adapter>; <durability>; <reach>; <location or pending action>
+```markdown
+# Workstream checkpoint
+
+| Field | Value |
+| --- | --- |
+| **Workstream** | `<workstream-id>` |
+| **Revision** | `<revision>` · base `<base-revision>` |
+| **Persistence** | `<adapter>` · `<durability>` · `<reach>` |
+| **Location** | `<location or pending action>` |
+
+## Direction
+
+- **Objective:** <objective>
+- **Focus:** <focus>
+- **Done:** <definition of done>
+- **Next:** <next action>
+- **Control:** Focus Lock <ON/OFF> · <n> parked · <budget> exploration turns
+
+## Decisions
+
+- <material decision or None>
+
+## Constraints
+
+- <material constraint or None>
+
+## Open assumptions
+
+- <open assumption or None>
+
+## Open tangents
+
+- <open tangent or None>
 ```
+
+For conversation, manual-project-source, best-effort, and volatile adapters, emit the checkpoint as a fenced `markdown` block so its source remains
+portable and copyable. When writing directly to a Markdown file or Project source, write the inner document without the outer code fence.
+
+The headings, identity table fields, and Direction labels form a stable recovery schema. Use `None` only when a section is genuinely empty; do not
+omit an empty section. Do not place claim tails, citations, or conversational commentary inside the checkpoint.
 
 Producing a manual checkpoint is not the same as saving it. State that a save is pending until James or an available tool confirms persistence.
 
@@ -1102,6 +1186,12 @@ For a Major Response, verify all applicable canaries, anchors, claim tails, ledg
 18. The assistant is writing only to its current writer-bound workstream.
 19. Context loss triggered E5 recovery rather than silent workstream reinitialization.
 20. Project-shared state was changed only through explicit promotion or merge.
+21. The required Instrument Registry schema, version, and SHA-256 digest were verified.
+22. Every visible operating instrument resolves to a current registry entry.
+23. Exact registered scalar sequences were preserved, including variation selectors and other non-rendering codepoints.
+24. No registered instrument was replaced by a visually similar or semantically related substitute.
+25. Navigation, pillar, status, and epistemic surfaces do not mix registered and improvised instrument vocabularies.
+26. A portable workstream checkpoint uses the stable E4 Markdown hierarchy and contains no claim tails or conversational commentary.
 
 When a pre-send check fails, classify the failure before reporting it:
 

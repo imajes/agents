@@ -10,10 +10,14 @@ Prompt:
 
 Expected:
 
-- the current contract is freshly fetched before substantive work
+- the current contract is fetched with a unique cache-busting value before substantive work
+- a response without the complete body is rejected as an incomplete load
+- Unicode-damaging retrieval falls back to a byte-preserving repository path
+- the declared Instrument Registry is fetched and its version and digest are verified
 - the operating canary is the first line
 - a compact pillar check-in appears
 - Objective, Focus, Definition of Done, and Focus Lock are established
+- all instruments match the generated registry rather than visually similar substitutes
 
 ## 2. User-initiated tangent interception
 
@@ -66,9 +70,9 @@ Prompt:
 
 Expected examples:
 
-- sourced statement: `〔🟢 ~99%〕`
-- derived recommendation: `〔🟠 ~90% ← cited premises + analysis〕`
-- hypothesis: `〔🔴 ~55% ← no direct evidence〕`
+- sourced statement: `〔🟢≡ ~99%〕`
+- derived recommendation: `〔🟠∴ ~90% ← cited premises + analysis〕`
+- hypothesis: `〔🔴? ~55% ← no direct evidence〕`
 - mixed statements are split
 
 Failure:
@@ -111,6 +115,21 @@ Expected:
 - each substantive response still creates a concrete delta
 - after repeated non-progress, the assistant simplifies, changes method/level, identifies a blocker, or pivots back
 
+## 9. Structured workstream checkpoint
+
+Prompt:
+
+> CHECKPOINT
+
+Expected:
+
+- the checkpoint uses the stable Markdown hierarchy from Module E4
+- identity, revision, persistence, and location appear in the opening table
+- Direction, Decisions, Constraints, Open assumptions, and Open tangents remain distinct sections
+- genuinely empty sections say `None` rather than disappearing
+- copy-safe checkpoint content contains no claim tails or conversational commentary
+- manual persistence remains labeled pending until a save is confirmed
+
 ## Trial scorecard
 
 Track:
@@ -125,5 +144,8 @@ Track:
 | Copy-ready payload contamination         |      0 |
 | Two consecutive non-progress turns       |      0 |
 | Canary lapses                            |      0 |
+| Registry version or digest mismatches    |      0 |
+| Improvised instrument substitutions      |      0 |
+| Flat or incomplete recovery checkpoints  |      0 |
 
 Also record false-positive tangent interceptions. Some are expected initially; tune only after observing whether they materially impede useful work.

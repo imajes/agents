@@ -1,0 +1,403 @@
+{
+  "schema": "operating-instrument-registry/v1",
+  "version": "1.0.0",
+  "description": "ASCII-only authority for operating-contract instruments.",
+  "instruments": [
+    {
+      "id": "CANARY_FEATHER",
+      "label": "Operating pillars",
+      "role": "canary",
+      "unicode_scalars": ["U+1FAB6"],
+      "utf8_hex": "F0 9F AA B6",
+      "ascii_fallback": "Operating pillars",
+      "render": {
+        "template": "{glyph}Operating pillars",
+        "spacing": "none"
+      }
+    },
+    {
+      "id": "PILLAR_TRUTHFULNESS",
+      "label": "Absolute truthfulness",
+      "role": "pillar",
+      "unicode_scalars": ["U+1F9F1"],
+      "utf8_hex": "F0 9F A7 B1",
+      "ascii_fallback": "Absolute truthfulness",
+      "render": {
+        "template": "{glyph} Absolute truthfulness",
+        "spacing": "one-after-glyph"
+      }
+    },
+    {
+      "id": "PILLAR_PRAGMATISM",
+      "label": "Effectual pragmatism",
+      "role": "pillar",
+      "unicode_scalars": ["U+1F9F0"],
+      "utf8_hex": "F0 9F A7 B0",
+      "ascii_fallback": "Effectual pragmatism",
+      "render": {
+        "template": "{glyph} Effectual pragmatism",
+        "spacing": "one-after-glyph"
+      }
+    },
+    {
+      "id": "PILLAR_CONTINUITY",
+      "label": "Grounded continuity",
+      "role": "pillar",
+      "unicode_scalars": ["U+1F9ED"],
+      "utf8_hex": "F0 9F A7 AD",
+      "ascii_fallback": "Grounded continuity",
+      "render": {
+        "template": "{glyph} Grounded continuity",
+        "spacing": "one-after-glyph"
+      }
+    },
+    {
+      "id": "PILLAR_SKEPTICISM",
+      "label": "Healthy skepticism",
+      "role": "pillar",
+      "unicode_scalars": ["U+1F50E"],
+      "utf8_hex": "F0 9F 94 8E",
+      "ascii_fallback": "Healthy skepticism",
+      "render": {
+        "template": "{glyph} Healthy skepticism",
+        "spacing": "one-after-glyph"
+      }
+    },
+    {
+      "id": "PURPOSE_FOCUS",
+      "label": "Reliable focus and drift control",
+      "role": "purpose",
+      "unicode_scalars": ["U+1F9E0"],
+      "utf8_hex": "F0 9F A7 A0",
+      "ascii_fallback": "Focus and drift control",
+      "render": {
+        "template": "{glyph} reliable focus and drift control",
+        "spacing": "one-after-glyph"
+      }
+    },
+    {
+      "id": "PURPOSE_INSPECTABILITY",
+      "label": "Claim-level inspectability",
+      "role": "purpose",
+      "unicode_scalars": ["U+1F9D0"],
+      "utf8_hex": "F0 9F A7 90",
+      "ascii_fallback": "Claim-level inspectability",
+      "render": {
+        "template": "{glyph} claim-level inspectability",
+        "spacing": "one-after-glyph"
+      }
+    },
+    {
+      "id": "PURPOSE_CORRECTNESS",
+      "label": "Technical correctness",
+      "role": "purpose",
+      "unicode_scalars": ["U+1F4BE"],
+      "utf8_hex": "F0 9F 92 BE",
+      "ascii_fallback": "Technical correctness",
+      "render": {
+        "template": "{glyph} technical correctness",
+        "spacing": "one-after-glyph"
+      }
+    },
+    {
+      "id": "PURPOSE_MOMENTUM",
+      "label": "Useful momentum without performative overhead",
+      "role": "purpose",
+      "unicode_scalars": ["U+1F40E"],
+      "utf8_hex": "F0 9F 90 8E",
+      "ascii_fallback": "Useful momentum",
+      "render": {
+        "template": "{glyph} useful momentum without performative overhead",
+        "spacing": "one-after-glyph"
+      }
+    },
+    {
+      "id": "NAV_OBJECTIVE",
+      "label": "Objective",
+      "role": "navigation",
+      "unicode_scalars": ["U+1F3AF"],
+      "utf8_hex": "F0 9F 8E AF",
+      "ascii_fallback": "Objective",
+      "render": {
+        "template": "{glyph} Objective",
+        "spacing": "one-after-glyph"
+      }
+    },
+    {
+      "id": "STYLE_POLISH",
+      "label": "Style and polish",
+      "role": "precedence",
+      "unicode_scalars": ["U+1F485"],
+      "utf8_hex": "F0 9F 92 85",
+      "ascii_fallback": "Style and polish",
+      "render": {
+        "template": "{glyph} Style and polish",
+        "spacing": "one-after-glyph"
+      }
+    },
+    {
+      "id": "RECEIPT_CONTRACT",
+      "label": "Contract",
+      "role": "control",
+      "unicode_scalars": ["U+1F4DC"],
+      "utf8_hex": "F0 9F 93 9C",
+      "ascii_fallback": "Contract",
+      "render": {
+        "template": "{glyph} Contract",
+        "spacing": "one-after-glyph"
+      }
+    },
+    {
+      "id": "NAV_FOCUS",
+      "label": "Focus",
+      "role": "navigation",
+      "unicode_scalars": ["U+1F527"],
+      "utf8_hex": "F0 9F 94 A7",
+      "ascii_fallback": "Focus",
+      "render": {
+        "template": "{glyph} Focus",
+        "spacing": "one-after-glyph"
+      }
+    },
+    {
+      "id": "NAV_DONE",
+      "label": "Done",
+      "role": "navigation",
+      "unicode_scalars": ["U+2705"],
+      "utf8_hex": "E2 9C 85",
+      "ascii_fallback": "Done",
+      "render": {
+        "template": "{glyph} Done",
+        "spacing": "one-after-glyph"
+      }
+    },
+    {
+      "id": "NAV_NEXT",
+      "label": "Next",
+      "role": "navigation",
+      "unicode_scalars": ["U+27A1", "U+FE0F"],
+      "utf8_hex": "E2 9E A1 EF B8 8F",
+      "ascii_fallback": "Next",
+      "render": {
+        "template": "{glyph} Next",
+        "spacing": "one-after-glyph"
+      }
+    },
+    {
+      "id": "NAV_STATE",
+      "label": "State",
+      "role": "navigation",
+      "unicode_scalars": ["U+1F4BE"],
+      "utf8_hex": "F0 9F 92 BE",
+      "ascii_fallback": "State",
+      "render": {
+        "template": "{glyph} State",
+        "spacing": "one-after-glyph"
+      }
+    },
+    {
+      "id": "NAV_CONTROL",
+      "label": "Control",
+      "role": "navigation",
+      "unicode_scalars": ["U+1F512"],
+      "utf8_hex": "F0 9F 94 92",
+      "ascii_fallback": "Control",
+      "render": {
+        "template": "{glyph} Control",
+        "spacing": "one-after-glyph"
+      }
+    },
+    {
+      "id": "NAV_PARKED",
+      "label": "Parked tangents",
+      "role": "navigation",
+      "unicode_scalars": ["U+1F17F", "U+FE0F"],
+      "utf8_hex": "F0 9F 85 BF EF B8 8F",
+      "ascii_fallback": "Parked",
+      "render": {
+        "template": "{glyph} Parked",
+        "spacing": "one-after-glyph"
+      }
+    },
+    {
+      "id": "NAV_EXPLORATION",
+      "label": "Exploration budget",
+      "role": "navigation",
+      "unicode_scalars": ["U+23F1", "U+FE0F"],
+      "utf8_hex": "E2 8F B1 EF B8 8F",
+      "ascii_fallback": "Exploration",
+      "render": {
+        "template": "{glyph} Exploration",
+        "spacing": "one-after-glyph"
+      }
+    },
+    {
+      "id": "STATUS_ON_TRACK",
+      "label": "On-track",
+      "role": "status",
+      "unicode_scalars": ["U+1F197"],
+      "utf8_hex": "F0 9F 86 97",
+      "ascii_fallback": "On-track",
+      "render": {
+        "template": "{glyph} On-track",
+        "spacing": "one-after-glyph"
+      }
+    },
+    {
+      "id": "STATUS_WATCH",
+      "label": "Watch",
+      "role": "status",
+      "unicode_scalars": ["U+1F440"],
+      "utf8_hex": "F0 9F 91 80",
+      "ascii_fallback": "Watch",
+      "render": {
+        "template": "{glyph} Watch",
+        "spacing": "one-after-glyph"
+      }
+    },
+    {
+      "id": "STATUS_AT_RISK",
+      "label": "At-risk",
+      "role": "status",
+      "unicode_scalars": ["U+1F6A8"],
+      "utf8_hex": "F0 9F 9A A8",
+      "ascii_fallback": "At-risk",
+      "render": {
+        "template": "{glyph} At-risk",
+        "spacing": "one-after-glyph"
+      }
+    },
+    {
+      "id": "CLAIM_EVIDENCED",
+      "label": "Directly evidenced",
+      "role": "epistemic",
+      "unicode_scalars": ["U+1F7E2", "U+2261"],
+      "utf8_hex": "F0 9F 9F A2 E2 89 A1",
+      "ascii_fallback": "=",
+      "render": {
+        "template": "{glyph}",
+        "spacing": "one-after-token"
+      }
+    },
+    {
+      "id": "CLAIM_DERIVED",
+      "label": "Derived",
+      "role": "epistemic",
+      "unicode_scalars": ["U+1F7E0", "U+2234"],
+      "utf8_hex": "F0 9F 9F A0 E2 88 B4",
+      "ascii_fallback": "->",
+      "render": {
+        "template": "{glyph}",
+        "spacing": "one-after-token"
+      }
+    },
+    {
+      "id": "CLAIM_SPECULATIVE",
+      "label": "Speculative or underdetermined",
+      "role": "epistemic",
+      "unicode_scalars": ["U+1F534", "U+003F"],
+      "utf8_hex": "F0 9F 94 B4 3F",
+      "ascii_fallback": "?",
+      "render": {
+        "template": "{glyph}",
+        "spacing": "one-after-token"
+      }
+    },
+    {
+      "id": "FLOW_FORWARD",
+      "label": "Forward flow",
+      "role": "separator",
+      "unicode_scalars": ["U+2192"],
+      "utf8_hex": "E2 86 92",
+      "ascii_fallback": "->",
+      "render": {
+        "template": "{glyph}",
+        "spacing": "one-around-token"
+      }
+    },
+    {
+      "id": "SOURCE_WARRANT",
+      "label": "Warranted by",
+      "role": "epistemic",
+      "unicode_scalars": ["U+2190"],
+      "utf8_hex": "E2 86 90",
+      "ascii_fallback": "<-",
+      "render": {
+        "template": "{glyph}",
+        "spacing": "one-around-token"
+      }
+    },
+    {
+      "id": "PROGRESS_CONTINUATION",
+      "label": "Progress continuation",
+      "role": "progress",
+      "unicode_scalars": ["U+21B3"],
+      "utf8_hex": "E2 86 B3",
+      "ascii_fallback": "->",
+      "render": {
+        "template": "{glyph}",
+        "spacing": "one-after-token"
+      }
+    },
+    {
+      "id": "EPISTEMIC_OPEN",
+      "label": "Epistemic tail opening delimiter",
+      "role": "delimiter",
+      "unicode_scalars": ["U+3014"],
+      "utf8_hex": "E3 80 94",
+      "ascii_fallback": "[",
+      "render": {
+        "template": "{glyph}",
+        "spacing": "none"
+      }
+    },
+    {
+      "id": "EPISTEMIC_CLOSE",
+      "label": "Epistemic tail closing delimiter",
+      "role": "delimiter",
+      "unicode_scalars": ["U+3015"],
+      "utf8_hex": "E3 80 95",
+      "ascii_fallback": "]",
+      "render": {
+        "template": "{glyph}",
+        "spacing": "none"
+      }
+    },
+    {
+      "id": "CONTROL_OPEN",
+      "label": "Exceptional control opening delimiter",
+      "role": "delimiter",
+      "unicode_scalars": ["U+27E6"],
+      "utf8_hex": "E2 9F A6",
+      "ascii_fallback": "[[",
+      "render": {
+        "template": "{glyph}",
+        "spacing": "none"
+      }
+    },
+    {
+      "id": "CONTROL_CLOSE",
+      "label": "Exceptional control closing delimiter",
+      "role": "delimiter",
+      "unicode_scalars": ["U+27E7"],
+      "utf8_hex": "E2 9F A7",
+      "ascii_fallback": "]]",
+      "render": {
+        "template": "{glyph}",
+        "spacing": "none"
+      }
+    },
+    {
+      "id": "METADATA_SEPARATOR",
+      "label": "Metadata separator",
+      "role": "separator",
+      "unicode_scalars": ["U+00B7"],
+      "utf8_hex": "C2 B7",
+      "ascii_fallback": "|",
+      "render": {
+        "template": "{glyph}",
+        "spacing": "one-around-token"
+      }
+    }
+  ]
+}
