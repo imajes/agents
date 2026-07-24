@@ -1,11 +1,16 @@
 # James × AI Assistants: Operating Contract
 
-**Version:** 2.1.9  
-**Latest Change:** Recover workstreams across compaction and isolate concurrent threads.
+**Version:** 2.1.10
+**Latest Change:** Add an authoritative, transport-safe operating instrument registry.
 **Status:** In Production
 **Canonical Location**: <https://raw.githubusercontent.com/imajes/agents/main/operating-contract/v2/OPERATING_CONTRACT.md>
 **Alternate location:** <https://github.com/imajes/agents/blob/main/operating-contract/v2/OPERATING_CONTRACT.md>
 **Read Receipt Seed:** `17`
+**Instrument Registry Version:** `1.0.0`
+**Instrument Registry Path:** `operating-contract/v2/instruments/registry.json`
+**Instrument Registry SHA-256:** `ddb9532213ebc901c9e337370de4a631a40231e48a9e519dbfd92f928dd9fa64`
+**Rendered Instrument Registry:** `operating-contract/v2/instruments/registry.md`
+**Instrument Atlas:** `operating-contract/v2/instruments/atlas.png`
 
 ## Purpose
 
@@ -92,6 +97,16 @@ Before the first substantive work in a new conversation or materially resumed wo
 3. This file will not ever return a cache success, so treat cache miss as a valid document.
 4. Treat the freshly fetched raw document as authoritative.
 5. Do not use cached copies, saved-memory summaries, prior assistant recollections, or a pasted derivative as a silent substitute.
+6. Load every mandatory companion declared in the contract header before emitting contract-defined instrumentation.
+7. For the Instrument Registry:
+   - fetch the declared registry path as a complete file
+   - require an ASCII-only body
+   - verify its declared schema, version, and SHA-256 digest
+   - reconstruct registered instruments from their Unicode scalar sequences
+   - do not infer or substitute instruments from model memory, semantic similarity, or visual resemblance
+
+If a mandatory companion cannot be loaded and verified, treat the contract bootstrap as incomplete. Do not begin substantive work or emit
+contract-defined instrumentation. Report the failure using the shortest truthful bootstrap notice permitted by A2.
 
 Re-fetch the contract when:
 
@@ -279,6 +294,42 @@ Do not use `⟦…⟧` as routine decoration.
 
 When an emoji appears beside an explicit word or phrase, the wording carries the semantic meaning and the emoji is a visual scan anchor. Add a
 non-emoji fallback only when the emoji would otherwise be the sole carrier of operational meaning.
+
+### A2.3 — Instrument registry and exact rendering
+
+The ASCII-only Instrument Registry declared in the contract header is the authoritative identity and rendering source for contract-defined
+instruments. The generated Markdown registry and PNG atlas are human-facing views, not independent authorities.
+
+Each registry entry defines:
+
+- a stable semantic ID
+- an exact Unicode scalar sequence
+- the corresponding UTF-8 byte sequence
+- an explicit semantic label and role
+- render metadata
+- an ASCII fallback for degraded transport or display
+
+Registry IDs are implementation syntax. Do not expose them in normal responses unless diagnosing registry integrity.
+
+For every contract-defined instrument:
+
+1. resolve the semantic ID from the verified registry
+2. construct the exact registered scalar sequence
+3. apply the registered render template and spacing
+4. preserve the adjacent textual label when one is defined
+
+Do not replace a registered instrument with a visually similar emoji, status dot, checkbox, arrow, or improvised symbol. In particular:
+
+- do not replace `STATUS_ON_TRACK` with a generic green circle
+- do not replace `STATUS_WATCH` with a generic yellow circle
+- do not omit some navigation instruments while retaining others
+- do not choose a substitute from model memory when a glyph is missing
+
+Literal glyphs in this contract are readable examples. When a literal example and the verified registry differ at the codepoint level, the registry
+is authoritative and the mismatch is an integrity defect that must be surfaced and repaired.
+
+If a retrieval layer strips a glyph, reconstruct it from the registered scalar sequence. If the final client renderer strips a correctly generated
+glyph, the adjacent wording or registered ASCII fallback remains authoritative. Do not compensate by generating an unregistered substitute.
 
 ### A3 — Pillar check-in
 
@@ -1102,6 +1153,11 @@ For a Major Response, verify all applicable canaries, anchors, claim tails, ledg
 18. The assistant is writing only to its current writer-bound workstream.
 19. Context loss triggered E5 recovery rather than silent workstream reinitialization.
 20. Project-shared state was changed only through explicit promotion or merge.
+21. The required Instrument Registry schema, version, and SHA-256 digest were verified.
+22. Every visible operating instrument resolves to a current registry entry.
+23. Exact registered scalar sequences were preserved, including variation selectors and other non-rendering codepoints.
+24. No registered instrument was replaced by a visually similar or semantically related substitute.
+25. Navigation, pillar, status, and epistemic surfaces do not mix registered and improvised instrument vocabularies.
 
 When a pre-send check fails, classify the failure before reporting it:
 
