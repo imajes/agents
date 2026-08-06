@@ -1,0 +1,7 @@
+{
+  "id": "rook",
+  "displayName": "Rook",
+  "description": "A midnight systems-steward raven who surveys the whole system, verifies each claim, and lands precisely on the next executable step.",
+  "spriteVersionNumber": 2,
+  "spritesheetPath": "spritesheet.webp"
+}

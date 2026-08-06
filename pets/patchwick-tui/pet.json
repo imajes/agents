@@ -1,0 +1,6 @@
+{
+  "id": "patchwick",
+  "displayName": "Patchwick",
+  "description": "A compact project-steward pet inspired by Codex delta automation, Grimmory docs, Neovim tuning, and homelab maintenance.",
+  "spritesheetPath": "spritesheet.webp"
+}
