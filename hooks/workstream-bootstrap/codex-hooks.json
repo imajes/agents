@@ -1,0 +1,19 @@
+{
+  "description": "Initialize Git for durable workstreams, prime existing Beads projects, bootstrap brand-new workstreams, and request approval before changing established repositories.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "additionalContextLimit": 12000,
+            "command": "python3 /Users/james/.agents/hooks/workstream-bootstrap/workstream_bootstrap.py session-start",
+            "statusMessage": "Preparing Git and Beads workstream",
+            "timeout": 120,
+            "type": "command"
+          }
+        ],
+        "matcher": "startup|resume|clear"
+      }
+    ]
+  }
+}

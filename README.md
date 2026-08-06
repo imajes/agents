@@ -39,6 +39,14 @@ These range from general tooling support to domain-specific workflows, including
 
 Most skill directories include a `SKILL.md` entrypoint plus any supporting scripts, references, assets, or agent metadata needed to make the skill practical.
 
+### `hooks/`
+
+User-level lifecycle hooks that apply durable policy at conversation boundaries.
+
+Each hook is kept as a documented, tested package with client registration examples. The first
+package, `workstream-bootstrap`, ensures durable workspace folders use Git and consistently
+initialize or prime Beads without silently changing established repositories.
+
 ### `plugins/`
 
 Local plugins and marketplace metadata.
