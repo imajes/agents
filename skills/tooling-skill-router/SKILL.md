@@ -33,7 +33,8 @@ Route tasks to the most specific curated tooling skill(s) with consistent preced
 - Performance measurement claims: use `$hyperfine-benchmark`.
 - Continuous rerun loops on file changes: use `$watchexec-rerun-on-changes`.
 - Ephemeral shared coordination state: use `$valkey-manage-ephemeral-state`.
-- Multi-agent or parallel branch setup with Git worktrees: use `$git-manage-worktrees`.
+- Beads-backed multi-agent or parallel worktree coordination: use `$beads-worktree-coordination` first, plus `$git-manage-worktrees` for physical branch/worktree operations.
+- Multi-agent or parallel branch setup without Beads: use `$git-manage-worktrees`.
 - Commit creation (`commit this`, `make a commit`): use `$git-commit-conventionally`.
 
 ## Precedence rules for overlaps
@@ -52,7 +53,8 @@ Route tasks to the most specific curated tooling skill(s) with consistent preced
    - If a command may remove files or directories, route through `rm-guard-deletions` by default before composing the delete step.
    - If a delete command uses `-f` or `--force`, treat escalation as mandatory.
 5. Worktree orchestration rule:
-   - For parallel implementation using git worktrees, run `git-manage-worktrees` first.
+   - If `bd where` resolves or the task mentions Beads, claims, Dolt, dependencies, or tracker handoffs, run `beads-worktree-coordination` first and pair it with `git-manage-worktrees`.
+   - Without Beads, use `git-manage-worktrees` by itself.
 6. Commit rule:
    - Any explicit commit request defaults to `git-commit-conventionally`.
 
@@ -63,7 +65,8 @@ Route tasks to the most specific curated tooling skill(s) with consistent preced
 - Shell cleanup or artifact deletion: `$rm-guard-deletions` + `$shell-guard-commands`.
 - Performance optimization task: `$hyperfine-benchmark` + domain-specific edit skill.
 - Large unfamiliar repo task: `$scc-codebase-survey` first, then route to task-specific skill.
-- Multi-agent coding with isolated branches: `$git-manage-worktrees` first, then task-specific edit/review skills.
+- Beads-backed multi-agent coding: `$beads-worktree-coordination` + `$git-manage-worktrees`, then task-specific edit/review skills.
+- Multi-agent coding without Beads: `$git-manage-worktrees`, then task-specific edit/review skills.
 - Finalizing work for version control: `$git-commit-conventionally` (after implementation/testing skills).
 
 ## Routing boundary
