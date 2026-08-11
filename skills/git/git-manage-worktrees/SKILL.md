@@ -12,6 +12,9 @@ description: Standardize Git worktree operations for parallel coding tasks. Use 
 ## Overview
 Use this skill to run parallel work safely with Git worktrees while keeping traceability and avoiding sandbox/path issues.
 
+## Beads Coordination Boundary
+If `bd where` resolves or the task mentions Beads, issue claims, dependencies, Dolt sync, agent handoffs, or merge slots, also load `$beads-worktree-coordination`. This skill owns physical Git worktree mechanics; the Beads skill owns durable task state, path ownership, writer concurrency, synchronization, handoff, and integration serialization.
+
 ## Required Rules
 1. Create worktrees under `<repo>/.worktrees/` only.
 2. Do not create worktrees in `/tmp` or `/private/tmp`.

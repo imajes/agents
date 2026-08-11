@@ -1,0 +1,4 @@
+interface:
+  display_name: "Coordinate Beads Worktrees"
+  short_description: "Safe Beads coordination across parallel worktrees"
+  default_prompt: "Use $beads-worktree-coordination to coordinate this Beads-backed task across agents and Git worktrees without conflicting code or tracker state."
