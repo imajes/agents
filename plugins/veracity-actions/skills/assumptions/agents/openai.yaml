@@ -1,0 +1,6 @@
+interface:
+  display_name: "Veracity \u00b7 Assumptions (stub)"
+  short_description: "Preview the assumptions action surface."
+  default_prompt: "Use $assumptions to track the premises this recommendation depends on."
+policy:
+  allow_implicit_invocation: false
