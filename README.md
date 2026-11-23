@@ -39,6 +39,19 @@ These range from general tooling support to domain-specific workflows, including
 
 Most skill directories include a `SKILL.md` entrypoint plus any supporting scripts, references, assets, or agent metadata needed to make the skill practical.
 
+#### Managing product skills
+
+The complete provider repositories are pinned Git submodules under `upstream/`. Codex discovers the selected skills through relative directory symlinks in `skills/product/<provider>/`. The submodule pins and the links are the inventory.
+
+From this checkout, use `just skills-init` after cloning, `just skills` to list active links, and `just skills-check` to verify them. Run `just skills-available phuryn` to list provider-relative skill paths. For example:
+
+```zsh
+just skill-enable phuryn pm-product-discovery/skills/interview-script
+just skill-disable phuryn interview-script
+```
+
+To review an upstream update, run `just skills-update phuryn` followed by `git diff --submodule=log -- upstream/phuryn`. The update checks that every active skill still exists at the candidate commit before switching the checkout. Review and commit the new pin or link changes in this repository when ready.
+
 ### `hooks/`
 
 User-level lifecycle hooks that apply durable policy at conversation boundaries.
