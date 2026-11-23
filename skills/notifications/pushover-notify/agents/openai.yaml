@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pushover Notify"
+  short_description: "Send focused Pushover notifications safely"
+  default_prompt: "Use $pushover-notify to send a validated Pushover message through the local bin tool."

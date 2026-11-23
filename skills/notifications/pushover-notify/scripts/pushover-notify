@@ -1,0 +1,375 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage:
+  pushover-notify [options] [message...]
+  some-command | pushover-notify [options]
+
+Send a validated notification through Pushover using:
+  PUSHOVER_APP_TOKEN
+  PUSHOVER_USER_KEY
+
+Options:
+  --title TEXT         Notification title. Default: Codex
+  --priority VALUE     One of -2, -1, 0, 1, 2. Default: 1
+  --sound NAME         Pushover sound name. Default: pushover
+  --url URL            Supplementary URL shown below the message
+  --url-title TEXT     Title for --url
+  --device NAME        Restrict delivery to a device name
+  --html               Enable Pushover HTML formatting
+  --monospace          Enable Pushover monospace formatting
+  --ttl SECONDS        Time to live in seconds
+  --timestamp EPOCH    Override displayed message timestamp
+  --dry-run            Validate and print a payload summary without sending
+  -h, --help           Show this help
+
+Notes:
+  - Read the message from arguments or stdin.
+  - `--html` and `--monospace` are mutually exclusive.
+  - This tool does not auto-retry. On 5xx or transport failure, wait at least
+    5 seconds before retrying. On 4xx, fix the input instead of retrying.
+EOF
+}
+
+require_value() {
+  local option="$1"
+  local value="${2:-}"
+  if [[ -z "${value}" ]]; then
+    printf 'Missing value for %s\n' "${option}" >&2
+    exit 2
+  fi
+}
+
+title="Codex"
+priority="1"
+sound="pushover"
+url=""
+url_title=""
+device=""
+html="0"
+monospace="0"
+ttl=""
+timestamp=""
+dry_run="0"
+
+message_parts=()
+
+while (($# > 0)); do
+  case "$1" in
+    --title)
+      shift
+      require_value "--title" "${1:-}"
+      title="$1"
+      ;;
+    --priority)
+      shift
+      require_value "--priority" "${1:-}"
+      priority="$1"
+      ;;
+    --sound)
+      shift
+      require_value "--sound" "${1:-}"
+      sound="$1"
+      ;;
+    --url)
+      shift
+      require_value "--url" "${1:-}"
+      url="$1"
+      ;;
+    --url-title)
+      shift
+      require_value "--url-title" "${1:-}"
+      url_title="$1"
+      ;;
+    --device)
+      shift
+      require_value "--device" "${1:-}"
+      device="$1"
+      ;;
+    --html)
+      html="1"
+      ;;
+    --monospace)
+      monospace="1"
+      ;;
+    --ttl)
+      shift
+      require_value "--ttl" "${1:-}"
+      ttl="$1"
+      ;;
+    --timestamp)
+      shift
+      require_value "--timestamp" "${1:-}"
+      timestamp="$1"
+      ;;
+    --dry-run)
+      dry_run="1"
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    --)
+      shift
+      while (($# > 0)); do
+        message_parts+=("$1")
+        shift
+      done
+      break
+      ;;
+    -*)
+      printf 'Unknown option: %s\n' "$1" >&2
+      usage >&2
+      exit 2
+      ;;
+    *)
+      message_parts+=("$1")
+      ;;
+  esac
+  shift
+done
+
+if [[ -n "${PUSHOVER_APP_TOKEN:-}" ]]; then
+  app_token="${PUSHOVER_APP_TOKEN}"
+else
+  printf 'PUSHOVER_APP_TOKEN is not set\n' >&2
+  exit 2
+fi
+
+if [[ -n "${PUSHOVER_USER_KEY:-}" ]]; then
+  user_key="${PUSHOVER_USER_KEY}"
+else
+  printf 'PUSHOVER_USER_KEY is not set\n' >&2
+  exit 2
+fi
+
+stdin_message=""
+if [[ ! -t 0 ]]; then
+  stdin_message="$(cat)"
+fi
+
+if ((${#message_parts[@]} > 0)) && [[ -n "${stdin_message}" ]]; then
+  printf 'Provide the message as arguments or stdin, not both\n' >&2
+  exit 2
+fi
+
+if ((${#message_parts[@]} > 0)); then
+  message="${message_parts[*]}"
+elif [[ -n "${stdin_message}" ]]; then
+  message="${stdin_message}"
+else
+  printf 'Message required as arguments or stdin\n' >&2
+  usage >&2
+  exit 2
+fi
+
+export PUSHOVER_MESSAGE="${message}"
+export PUSHOVER_TITLE="${title}"
+export PUSHOVER_URL="${url}"
+export PUSHOVER_URL_TITLE="${url_title}"
+export PUSHOVER_PRIORITY="${priority}"
+export PUSHOVER_SOUND="${sound}"
+export PUSHOVER_HTML="${html}"
+export PUSHOVER_MONOSPACE="${monospace}"
+export PUSHOVER_TTL="${ttl}"
+export PUSHOVER_TIMESTAMP="${timestamp}"
+
+python3 <<'PY'
+import os
+import sys
+
+
+def fail(message: str) -> None:
+    print(message, file=sys.stderr)
+    raise SystemExit(2)
+
+
+def check_length(field: str, value: str, limit: int) -> None:
+    if value and len(value) > limit:
+        fail(f"{field} exceeds Pushover limit: {len(value)} > {limit} characters")
+
+
+message = os.environ["PUSHOVER_MESSAGE"]
+title = os.environ["PUSHOVER_TITLE"]
+url = os.environ["PUSHOVER_URL"]
+url_title = os.environ["PUSHOVER_URL_TITLE"]
+priority = os.environ["PUSHOVER_PRIORITY"]
+html = os.environ["PUSHOVER_HTML"] == "1"
+monospace = os.environ["PUSHOVER_MONOSPACE"] == "1"
+ttl = os.environ["PUSHOVER_TTL"]
+timestamp = os.environ["PUSHOVER_TIMESTAMP"]
+
+if not message.strip():
+    fail("message must not be empty")
+
+check_length("message", message, 1024)
+check_length("title", title, 250)
+check_length("url", url, 512)
+check_length("url_title", url_title, 100)
+
+if url_title and not url:
+    fail("url_title requires url")
+
+if html and monospace:
+    fail("html and monospace cannot be enabled together")
+
+if priority not in {"-2", "-1", "0", "1", "2"}:
+    fail("priority must be one of -2, -1, 0, 1, 2")
+
+if ttl:
+    try:
+      ttl_value = int(ttl)
+    except ValueError as exc:
+      fail(f"ttl must be an integer: {exc}")
+    if ttl_value <= 0:
+      fail("ttl must be a positive integer")
+    if priority == "2":
+      print("warning: ttl is ignored by Pushover for priority=2", file=sys.stderr)
+
+if timestamp:
+    try:
+      int(timestamp)
+    except ValueError as exc:
+      fail(f"timestamp must be a Unix epoch integer: {exc}")
+PY
+
+if [[ "${dry_run}" == "1" ]]; then
+  python3 <<'PY'
+import json
+import os
+
+summary = {
+    "title": os.environ["PUSHOVER_TITLE"],
+    "message_characters": len(os.environ["PUSHOVER_MESSAGE"]),
+    "priority": os.environ["PUSHOVER_PRIORITY"],
+    "sound": os.environ["PUSHOVER_SOUND"],
+    "url": os.environ["PUSHOVER_URL"] or None,
+    "url_title": os.environ["PUSHOVER_URL_TITLE"] or None,
+    "html": os.environ["PUSHOVER_HTML"] == "1",
+    "monospace": os.environ["PUSHOVER_MONOSPACE"] == "1",
+    "ttl": os.environ["PUSHOVER_TTL"] or None,
+    "timestamp": os.environ["PUSHOVER_TIMESTAMP"] or None,
+}
+print(json.dumps(summary, indent=2, sort_keys=True))
+PY
+  exit 0
+fi
+
+headers_file="$(mktemp)"
+body_file="$(mktemp)"
+cleanup() {
+  rm -f "${headers_file}" "${body_file}"
+}
+trap cleanup EXIT
+
+curl_args=(
+  -sS
+  --output "${body_file}"
+  --dump-header "${headers_file}"
+  --write-out "%{http_code}"
+  --data-urlencode "token=${app_token}"
+  --data-urlencode "user=${user_key}"
+  --data-urlencode "title=${title}"
+  --data-urlencode "message=${message}"
+  --data-urlencode "sound=${sound}"
+  -d "priority=${priority}"
+)
+
+if [[ -n "${url}" ]]; then
+  curl_args+=(--data-urlencode "url=${url}")
+fi
+if [[ -n "${url_title}" ]]; then
+  curl_args+=(--data-urlencode "url_title=${url_title}")
+fi
+if [[ -n "${device}" ]]; then
+  curl_args+=(--data-urlencode "device=${device}")
+fi
+if [[ -n "${ttl}" ]]; then
+  curl_args+=(-d "ttl=${ttl}")
+fi
+if [[ -n "${timestamp}" ]]; then
+  curl_args+=(-d "timestamp=${timestamp}")
+fi
+if [[ "${html}" == "1" ]]; then
+  curl_args+=(-d "html=1")
+fi
+if [[ "${monospace}" == "1" ]]; then
+  curl_args+=(-d "monospace=1")
+fi
+curl_args+=(https://api.pushover.net/1/messages.json)
+
+curl_rc=0
+http_code="$(curl "${curl_args[@]}")" || curl_rc=$?
+
+if [[ "${curl_rc}" -ne 0 ]]; then
+  printf 'Transport failure talking to Pushover. Wait at least 5 seconds before retrying.\n' >&2
+  exit 4
+fi
+
+python3 - "${body_file}" "${headers_file}" "${http_code}" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+body_path, headers_path, http_code_raw = sys.argv[1:]
+http_code = int(http_code_raw)
+
+
+def parse_headers(text: str) -> dict[str, str]:
+    parsed: dict[str, str] = {}
+    for line in text.splitlines():
+        if ":" not in line:
+            continue
+        key, value = line.split(":", 1)
+        parsed[key.strip().lower()] = value.strip()
+    return parsed
+
+
+try:
+    body = json.loads(Path(body_path).read_text())
+except json.JSONDecodeError as exc:
+    print(f"Invalid JSON response from Pushover (HTTP {http_code}): {exc}", file=sys.stderr)
+    raise SystemExit(4 if http_code >= 500 else 2)
+
+headers = parse_headers(Path(headers_path).read_text())
+request_id = body.get("request")
+errors = body.get("errors") or []
+error_text = "; ".join(str(item) for item in errors) or body.get("error") or "request failed"
+
+if http_code == 200 and body.get("status") == 1:
+    line = "queued"
+    if request_id:
+        line += f" request={request_id}"
+    remaining = headers.get("x-limit-app-remaining")
+    reset = headers.get("x-limit-app-reset")
+    if remaining:
+        line += f" remaining={remaining}"
+    if reset:
+        line += f" reset={reset}"
+    print(line)
+    receipt = body.get("receipt")
+    if receipt:
+        print(f"receipt={receipt}")
+    raise SystemExit(0)
+
+if 400 <= http_code < 500:
+    print(
+        f"Pushover rejected the request (HTTP {http_code}): {error_text}. "
+        "Do not retry unchanged input.",
+        file=sys.stderr,
+    )
+    if request_id:
+        print(f"request={request_id}", file=sys.stderr)
+    raise SystemExit(3 if http_code == 429 else 2)
+
+print(
+    f"Pushover temporary failure (HTTP {http_code}): {error_text}. "
+    "Wait at least 5 seconds before retrying.",
+    file=sys.stderr,
+)
+if request_id:
+    print(f"request={request_id}", file=sys.stderr)
+raise SystemExit(4)
+PY
