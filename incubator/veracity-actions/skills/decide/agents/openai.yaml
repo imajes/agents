@@ -1,0 +1,6 @@
+interface:
+  display_name: "Veracity \u00b7 Decide (stub)"
+  short_description: "Preview the decide action surface."
+  default_prompt: "Use $decide to help choose between these approaches."
+policy:
+  allow_implicit_invocation: false

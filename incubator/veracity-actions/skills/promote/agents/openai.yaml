@@ -1,0 +1,6 @@
+interface:
+  display_name: "Veracity \u00b7 Promote to project (stub)"
+  short_description: "Preview the promote to project action surface."
+  default_prompt: "Use $promote to make this accepted decision part of the project\u2019s shared context."
+policy:
+  allow_implicit_invocation: false
