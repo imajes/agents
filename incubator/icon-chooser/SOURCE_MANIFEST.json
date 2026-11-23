@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "distribution": "Font Awesome Pro Plus",
+  "version": "7.3.1",
+  "importer_version": "0.1.0",
+  "sources": {
+    "desktop": {
+      "filename": "fontawesome-pro-plus-7.3.1-desktop.zip",
+      "sha256": "2862593869d4dae3c0491ef5dd074cb8504ac1ea6c2104e17f4e66e3f11444e2",
+      "bytes": 167459145,
+      "imported_files": 169616
+    },
+    "web": {
+      "filename": "fontawesome-pro-plus-7.3.1-web.zip",
+      "sha256": "f865b231ad6a2f01eba589d063694977bac94f24562463f844661b323ef4c396",
+      "bytes": 229259261,
+      "imported_files": 47
+    }
+  },
+  "license": "https://fontawesome.com/license",
+  "runtime_policy": "Expanded files only; no archive access during requests."
+}
