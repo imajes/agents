@@ -1,0 +1,4 @@
+interface:
+  display_name: "Artifact Design"
+  short_description: "Design clear, usable documents and reference artifacts"
+  default_prompt: "Use $artifact-design to design or refine this artifact around its readers, decisions, and actions."
