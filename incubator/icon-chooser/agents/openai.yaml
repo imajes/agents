@@ -1,0 +1,6 @@
+interface:
+  display_name: "Icon Chooser"
+  short_description: "Find meaningful icons and deliver styled SVG or PNG"
+  default_prompt: "Use $icon-chooser to suggest suitable icons for this artifact and deliver the selected files with integration guidance."
+policy:
+  allow_implicit_invocation: true

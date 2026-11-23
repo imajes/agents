@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "concepts": [
+    {"terms": ["korfball", "netball"], "related": ["basketball-hoop", "basketball"], "broader": ["sportsball", "trophy"], "reason": "A hoop or ball can suggest the activity; sportsball represents sport broadly, not the exact sport."},
+    {"terms": ["underwater hockey", "octopush"], "related": ["hockey-puck", "person-swimming"], "broader": ["sportsball"], "reason": "Hockey equipment or swimming conveys one aspect; label the activity in text."},
+    {"terms": ["teamwork", "collaboration", "working together"], "related": ["people-group", "handshake", "people-arrows"], "broader": ["users"], "reason": "People and shared actions convey collaboration."},
+    {"terms": ["trust", "trustworthy", "credibility"], "related": ["shield-check", "handshake", "badge-check"], "broader": ["shield"], "reason": "Verification, protection, and agreement are useful trust metaphors."},
+    {"terms": ["respectful disagreement", "civil debate", "constructive feedback"], "related": ["comments", "comment-lines", "handshake"], "broader": ["messages"], "reason": "Conversation paired with respectful language communicates dialogue without implying hostility."},
+    {"terms": ["resilience", "recovery", "bounce back"], "related": ["seedling", "arrow-rotate-right", "life-ring"], "broader": ["shield"], "reason": "Growth, renewal, or support can express recovery depending on context."},
+    {"terms": ["sustainability", "sustainable", "environment"], "related": ["leaf", "recycle", "earth-americas"], "broader": ["seedling"], "reason": "Choose nature, reuse, or the planet according to the claim."},
+    {"terms": ["onboarding", "getting started", "welcome"], "related": ["door-open", "route", "person-walking-arrow-right"], "broader": ["flag"], "reason": "An entrance or route suggests beginning a journey."},
+    {"terms": ["strategy", "strategic planning"], "related": ["chess-knight", "bullseye-arrow", "map"], "broader": ["compass"], "reason": "Planning moves, targeting an outcome, or choosing direction conveys strategy."},
+    {"terms": ["innovation", "new idea", "brainstorm"], "related": ["lightbulb-on", "lightbulb", "sparkles"], "broader": ["brain"], "reason": "Ideas and discovery suggest innovation."},
+    {"terms": ["privacy", "confidential", "private data"], "related": ["user-lock", "lock-keyhole", "shield-keyhole"], "broader": ["lock"], "reason": "Protection of people or access conveys privacy."},
+    {"terms": ["latency", "response time", "performance"], "related": ["gauge-high", "stopwatch", "bolt"], "broader": ["clock"], "reason": "Choose elapsed time for latency or a gauge for throughput/performance."},
+    {"terms": ["backup", "disaster recovery"], "related": ["cloud-arrow-up", "hard-drive", "arrows-rotate"], "broader": ["database"], "reason": "Storage plus a recovery action conveys backup."},
+    {"terms": ["accessibility", "inclusive design"], "related": ["universal-access", "person-circle-check"], "broader": ["people-group"], "reason": "Universal access is a direct accessibility symbol; consider the specific accommodation."},
+    {"terms": ["mentoring", "mentorship", "coaching"], "related": ["chalkboard-user", "person-chalkboard", "hand-holding-heart"], "broader": ["users"], "reason": "Teaching or support can represent mentoring."},
+    {"terms": ["genealogy", "family history", "ancestry"], "related": ["family", "tree", "sitemap"], "broader": ["people-group"], "reason": "Family or branching structure expresses relationships through generations."},
+    {"terms": ["scouting", "outdoor skills"], "related": ["campfire", "compass", "campground"], "broader": ["person-hiking"], "reason": "Use an activity symbol for the specific outdoor skill."},
+    {"terms": ["decision", "tradeoff", "trade-off"], "related": ["code-branch", "scale-balanced", "signs-post"], "broader": ["compass"], "reason": "Branches and balance express alternatives or tradeoffs."},
+    {"terms": ["milestone", "achievement"], "related": ["flag-checkered", "trophy", "medal"], "broader": ["flag"], "reason": "A finish flag or award conveys reaching a milestone."},
+    {"terms": ["automation", "automated workflow"], "related": ["gears", "robot", "diagram-project"], "broader": ["gear"], "reason": "Mechanisms or connected steps convey automation."},
+    {"terms": ["observability", "monitoring", "system health"], "related": ["monitor-waveform", "chart-line", "heart-pulse"], "broader": ["eye"], "reason": "Signals and trends convey monitoring; health is a metaphor."},
+    {"terms": ["compliance", "policy review"], "related": ["clipboard-check", "file-circle-check", "scale-balanced"], "broader": ["list-check"], "reason": "Checked requirements express compliance review."},
+    {"terms": ["community", "belonging"], "related": ["people-roof", "people-group", "hands-holding-heart"], "broader": ["users"], "reason": "Shared shelter and people suggest belonging."},
+    {"terms": ["curiosity", "exploration"], "related": ["magnifying-glass", "compass", "binoculars"], "broader": ["circle-question"], "reason": "Investigation or discovery expresses curiosity."},
+    {"terms": ["roadmap", "project journey"], "related": ["route", "map-location-dot", "signs-post"], "broader": ["map"], "reason": "A route with destinations conveys planned progress."}
+  ]
+}
