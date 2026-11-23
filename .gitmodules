@@ -1,3 +1,15 @@
 [submodule "plugins/codex-deltas"]
 	path = plugins/codex-deltas
 	url = git@github.com:imajes/codex-deltas-plugin.git
+[submodule "upstream/deanpeters"]
+	path = upstream/deanpeters
+	url = https://github.com/deanpeters/Product-Manager-Skills.git
+	branch = main
+[submodule "upstream/phuryn"]
+	path = upstream/phuryn
+	url = https://github.com/phuryn/pm-skills.git
+	branch = main
+[submodule "upstream/mattpocock"]
+	path = upstream/mattpocock
+	url = https://github.com/mattpocock/skills.git
+	branch = main
