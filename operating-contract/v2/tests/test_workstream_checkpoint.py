@@ -27,9 +27,9 @@ class WorkstreamCheckpointTests(unittest.TestCase):
         self.assertIn("```markdown\n# Workstream checkpoint", contract)
         for heading in REQUIRED_HEADINGS:
             self.assertIn(heading, contract)
-        self.assertIn("| **Workstream** | `<workstream-id>` |", contract)
-        self.assertIn("| **Revision** | `<revision>`", contract)
-        self.assertIn("| **Persistence** | `<adapter>`", contract)
+        self.assertRegex(contract, r"(?m)^\| *\*\*Workstream\*\* *\| *`<workstream-id>` *\|$")
+        self.assertRegex(contract, r"(?m)^\| *\*\*Revision\*\* *\| *`<revision>`")
+        self.assertRegex(contract, r"(?m)^\| *\*\*Persistence\*\* *\| *`<adapter>`")
         self.assertIn("- **Objective:** <objective>", contract)
         self.assertIn("- **Control:** Focus Lock <ON/OFF>", contract)
         self.assertIn("Use `None` only when a section is genuinely empty", contract)
@@ -40,9 +40,8 @@ class WorkstreamCheckpointTests(unittest.TestCase):
 
         for heading in REQUIRED_HEADINGS:
             self.assertIn(heading, template)
-        self.assertIn("| **Workstream** |", template)
-        self.assertIn("| **Revision** |", template)
-        self.assertIn("| **Persistence** |", template)
+        for field in ("Workstream", "Revision", "Persistence"):
+            self.assertRegex(template, rf"(?m)^\| *\*\*{field}\*\* *\|")
         self.assertIn("**Objective:**", template)
         self.assertIn("**Next:**", template)
         self.assertIn("**Control:**", template)

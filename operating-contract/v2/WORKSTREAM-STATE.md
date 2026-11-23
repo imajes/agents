@@ -4,12 +4,12 @@
 > before pauses or handoffs, after major decisions, and after
 > context-integrity recovery.
 
-| Field | Value |
-| --- | --- |
-| **Workstream** | `<workstream-id>` |
-| **Revision** | `<revision>` · base `<base-revision>` |
-| **Persistence** | `<adapter>` · `<durability>` · `<reach>` |
-| **Location** | `<namespaced path, project source, memory key, or conversation>` |
+| Field           | Value                                                            |
+| --------------- | ---------------------------------------------------------------- |
+| **Workstream**  | `<workstream-id>`                                                |
+| **Revision**    | `<revision>` · base `<base-revision>`                            |
+| **Persistence** | `<adapter>` · `<durability>` · `<reach>`                         |
+| **Location**    | `<namespaced path, project source, memory key, or conversation>` |
 
 ## Direction
 
@@ -45,8 +45,9 @@
 
 ## Canonical sources
 
-- Operating contract:
-  <https://raw.githubusercontent.com/imajes/agents/main/operating-contract/v2/OPERATING_CONTRACT.md>
+- Operating contract, local: `/Users/james/.agents/operating-contract/v2/OPERATING_CONTRACT.md`
+- Operating contract, web: <https://github.com/imajes/agents/blob/main/operating-contract/v2/OPERATING_CONTRACT.md>
+- Workstream State Template: `/Users/james/.agents/operating-contract/v2/WORKSTREAM-STATE.md`
 - Project sources: None
 
 ## Updated

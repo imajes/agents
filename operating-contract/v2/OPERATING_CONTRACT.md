@@ -92,6 +92,8 @@ When a conflict cannot be resolved cleanly, state the conflict and choose the sa
 
 Before every required contract load:
 
+**NOTE:** If you are told to bootstrap from a contract hosted on GitHub (or any other online tool), perform these steps, otherwise go straight to step 6:
+
 1. Generate a unique cache-busting value at request time.
 2. Request the canonical raw URL with that value appended:
    `<canonical-url>?contract_cb=<unique timestamp or nonce>`.
@@ -100,6 +102,7 @@ Before every required contract load:
    body is not a successful contract load and is not evidence that the contract is unavailable.
 5. If the first retrieval path omits, normalizes, or corrupts content or contract-declared Unicode, retry through a byte-preserving GitHub
    repository-file or contents endpoint using UTF-8.
+
 6. Verify the contract header and read the complete document top to bottom before claiming that the contract is active.
 7. Treat the freshly fetched and completely read document as authoritative. Do not use cached copies, saved-memory summaries, prior assistant
    recollections, or a pasted derivative as a silent substitute.
@@ -108,7 +111,7 @@ Before every required contract load:
    - use an independent unique cache-busting value
    - fetch the declared path as a complete file
    - require an ASCII-only body
-   - verify its declared schema, version, and SHA-256 digest
+   - verify its declared schema, version, and SHA-256 digest (prefer `openssl` over `shasum`)
    - reconstruct registered instruments from their Unicode scalar sequences
    - do not infer or substitute instruments from model memory, semantic similarity, or visual resemblance
 
@@ -146,9 +149,12 @@ After reaching the end and completing every transformation:
 
 1. Set a transient pending receipt containing the contract version and final read value.
 2. In the first Major Response after that read, add exactly one exceptional-control row to the navigation table:
+
    ```markdown
-| ⟦📜 **Contract**⟧ | Version <version> · receipt `<value>` · freshly read |
-```
+   | ⟦📜 **Contract**⟧ | Version <version> · receipt `<value>` · freshly read |
+   ```
+
+````
 3. Clear the pending receipt after emitting it.
 4. Do not emit individual checkpoint messages or repeat the receipt in later responses.
 5. Emit a new one-time receipt after every later fresh read, including a same-version integrity re-read.
@@ -362,14 +368,14 @@ Use a **full check-in** when:
 | 🧰 **Effectual pragmatism**  | <Emoji> <Label>  | Brief assessment |
 | 🧭 **Grounded continuity**   | <Emoji> <Label>  | Brief assessment |
 | 🔎 **Healthy skepticism**    | <Emoji> <Label>  | Brief assessment |
-```
+````
 
 Use an **exception-only check-in** at an ordinary milestone or when exactly one pillar is at Watch or At-risk:
 
 ```markdown
-| Pillar                    | Status          | Assessment                    |
-| :------------------------ | :-------------: | :---------------------------- |
-| <Affected pillar>         | <Emoji> <Label> | Brief material exception only |
+| Pillar            |     Status      | Assessment                    |
+| :---------------- | :-------------: | :---------------------------- |
+| <Affected pillar> | <Emoji> <Label> | Brief material exception only |
 ```
 
 Do not list on-track pillars in an exception-only check-in. If no trigger applies and every pillar is on-track, omit the check-in.
@@ -690,15 +696,15 @@ Progress Notes inherit the current workstream state but do not render it.
 Place a compact navigation table immediately after the operating canary on every Major Response:
 
 ```markdown
-| Instrument       | Current state                                                        |
-| ---------------- | -------------------------------------------------------------------- |
-| ⟦📜 **Contract**⟧ | Version <version> · receipt `<value>` · freshly read                  |
-| 🎯 **Objective** | <Objective>                                                          |
-| 🔧 **Focus**     | <Focus>                                                              |
-| ✅ **Done**      | <Definition of Done>                                                 |
-| ➡️ **Next**      | <Next action>                                                        |
-| 💾 **State**     | `<workstream-id>` · r<revision> · <adapter> · <durability>            |
-| 🔒 **Control**   | **<ON/OFF>** · 🅿️ **<n> parked** · ⏱️ **<budget> exploration turns** |
+| Instrument        | Current state                                                        |
+| ----------------- | -------------------------------------------------------------------- |
+| ⟦📜 **Contract**⟧ | Version <version> · receipt `<value>` · freshly read                 |
+| 🎯 **Objective**  | <Objective>                                                          |
+| 🔧 **Focus**      | <Focus>                                                              |
+| ✅ **Done**       | <Definition of Done>                                                 |
+| ➡️ **Next**       | <Next action>                                                        |
+| 💾 **State**      | `<workstream-id>` · r<revision> · <adapter> · <durability>           |
+| 🔒 **Control**    | **<ON/OFF>** · 🅿️ **<n> parked** · ⏱️ **<budget> exploration turns** |
 ```
 
 The fixed left-hand instrument rail is intentional. It supports fast visual inspection of contract parity, current intent, and recoverability. Use
@@ -872,11 +878,11 @@ invent a platform identifier and present it as real.
 
 Separate state into three scopes:
 
-| Scope | Contains | Mutation rule |
-| --- | --- | --- |
-| **Workstream state** | Objective, Focus, Done, next action, local decisions, assumptions, tangents, and execution status | Thread-bound, revisioned, single writer |
-| **Project shared state** | Accepted cross-workstream constraints, decisions, canonical artifacts, and project-wide facts | Explicit promotion or merge only |
-| **Personal memory** | Stable preferences and, when necessary, compact recovery pointers | Best-effort; not exact mutable-state authority by default |
+| Scope                    | Contains                                                                                          | Mutation rule                                             |
+| ------------------------ | ------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| **Workstream state**     | Objective, Focus, Done, next action, local decisions, assumptions, tangents, and execution status | Thread-bound, revisioned, single writer                   |
+| **Project shared state** | Accepted cross-workstream constraints, decisions, canonical artifacts, and project-wide facts     | Explicit promotion or merge only                          |
+| **Personal memory**      | Stable preferences and, when necessary, compact recovery pointers                                 | Best-effort; not exact mutable-state authority by default |
 
 Do not use one unqualified `WORKSTREAM-STATE.md` or equivalent mutable record as the state owner for multiple independent threads. Include the
 workstream ID in the path, title, key, or namespace.
@@ -925,13 +931,13 @@ project memory.
 
 Choose the least-lossy adapter that is actually available across the surfaces on which the workstream is expected to continue:
 
-| Adapter class | Typical environment | Durability | Required behavior |
-| --- | --- | --- | --- |
-| **Managed file or versioned source** | Repository or writable local project | `verified` after read-back | Store one namespaced record per workstream and validate the write |
-| **Writable project or cloud source** | Cloud workspace with assistant write access | `verified` after read-back | Store a uniquely titled workstream record and validate the write |
-| **Manual project-source snapshot** | Cloud Project where James must save a response | `manual` or `manual save pending` | Emit a portable checkpoint and distinguish production from completed save |
-| **Namespaced saved memory** | No file/source access, but memory is available | `best-effort` | Store one compact revisioned entry per workstream ID; never use a generic project-current key |
-| **Conversation checkpoint** | No external persistence mechanism | `volatile` | Emit a visible recovery capsule after material changes |
+| Adapter class                        | Typical environment                            | Durability                        | Required behavior                                                                             |
+| ------------------------------------ | ---------------------------------------------- | --------------------------------- | --------------------------------------------------------------------------------------------- |
+| **Managed file or versioned source** | Repository or writable local project           | `verified` after read-back        | Store one namespaced record per workstream and validate the write                             |
+| **Writable project or cloud source** | Cloud workspace with assistant write access    | `verified` after read-back        | Store a uniquely titled workstream record and validate the write                              |
+| **Manual project-source snapshot**   | Cloud Project where James must save a response | `manual` or `manual save pending` | Emit a portable checkpoint and distinguish production from completed save                     |
+| **Namespaced saved memory**          | No file/source access, but memory is available | `best-effort`                     | Store one compact revisioned entry per workstream ID; never use a generic project-current key |
+| **Conversation checkpoint**          | No external persistence mechanism              | `volatile`                        | Emit a visible recovery capsule after material changes                                        |
 
 During a fresh sequential contract read, multiply the accumulated receipt value by the number of adapter classes in the table above.
 
@@ -957,12 +963,12 @@ When the adapter is manual, best-effort, or volatile, emit a portable recovery c
 ```markdown
 # Workstream checkpoint
 
-| Field | Value |
-| --- | --- |
-| **Workstream** | `<workstream-id>` |
-| **Revision** | `<revision>` · base `<base-revision>` |
+| Field           | Value                                    |
+| --------------- | ---------------------------------------- |
+| **Workstream**  | `<workstream-id>`                        |
+| **Revision**    | `<revision>` · base `<base-revision>`    |
 | **Persistence** | `<adapter>` · `<durability>` · `<reach>` |
-| **Location** | `<location or pending action>` |
+| **Location**    | `<location or pending action>`           |
 
 ## Direction
 
@@ -999,7 +1005,6 @@ Producing a manual checkpoint is not the same as saving it. State that a save is
 
 Do not rewrite a verified durable record mechanically after every sentence. Checkpoint on material state changes, at major milestones, before a long
 pause or handoff, when context consumption is substantial, after integrity recovery, or when James requests `CHECKPOINT`.
-
 
 ### E5 — Compaction and context-loss recovery
 
@@ -1063,9 +1068,9 @@ Never let one thread update another thread's workstream merely because both are 
 
 A project with multiple workstreams should maintain a revisioned index containing pointers, not mutable execution state:
 
-| Workstream | Label | Revision | Status | Writer | State location |
-| --- | --- | ---: | --- | --- | --- |
-| `<id>` | `<label>` | `<revision>` | active / paused / completed | `<binding>` | `<adapter location>` |
+| Workstream | Label     |     Revision | Status                      | Writer      | State location       |
+| ---------- | --------- | -----------: | --------------------------- | ----------- | -------------------- |
+| `<id>`     | `<label>` | `<revision>` | active / paused / completed | `<binding>` | `<adapter location>` |
 
 The index must not define one project-wide “current Objective” or “current Focus.” Its purpose is discovery, recovery, and conflict detection.
 
@@ -1104,6 +1109,7 @@ If neither a durable record nor a recoverable thread binding survives compaction
 
 Do not assume that repository files, local files, cloud Project sources, chat history, saved memory, or Codex history are mutually visible. Make the
 persistence boundary and any required manual action explicit.
+
 ---
 
 ## Module F — Technical, source, and artifact discipline
