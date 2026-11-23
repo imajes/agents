@@ -3,3 +3,5 @@
 /operating-contract/v2/PERSONALIZATION-FIELDS.json
 /operating-contract/james-chatgpt-personalization-v2.zip
 /hatchlings/hatch-archives
+
+__pycache__/
