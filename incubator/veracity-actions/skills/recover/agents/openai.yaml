@@ -1,0 +1,6 @@
+interface:
+  display_name: "Veracity \u00b7 Recover (stub)"
+  short_description: "Preview the recover action surface."
+  default_prompt: "Use $recover to find where this workstream stopped and show the next action."
+policy:
+  allow_implicit_invocation: false

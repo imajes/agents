@@ -1,0 +1,6 @@
+interface:
+  display_name: "Veracity \u00b7 Diagnose (stub)"
+  short_description: "Preview the diagnose action surface."
+  default_prompt: "Use $diagnose to investigate why this workflow is failing."
+policy:
+  allow_implicit_invocation: false

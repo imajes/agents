@@ -1,0 +1,1108 @@
+{
+  "schema": "veracity-action-surface/v0",
+  "status": "skeleton",
+  "version": "0.1.0-skeleton.1",
+  "source": {
+    "path": "/Users/james/.agents/operating-contract/v2/OPERATING_CONTRACT.md",
+    "version": "2.1.12",
+    "sha256": "067a6917c2cd75c906bd279f15662519c22ea5af3b25dbd2eef90f4547d466f9",
+    "role": "reference-only"
+  },
+  "skills": [
+    {
+      "name": "focus",
+      "title": "Focus",
+      "group": "Attention",
+      "status": "stub",
+      "purpose": "Establish and steer the objective, current focus, completion condition, and next action for a conversation.",
+      "invocation": "Use $focus to keep this conversation directed at finishing the migration plan.",
+      "source_sections": [
+        "0.2",
+        "0.3",
+        "A2.1",
+        "C7",
+        "D1",
+        "D2",
+        "D3",
+        "D5",
+        "D6",
+        "D7",
+        "D9"
+      ],
+      "modes": [
+        "Start or re-anchor a focus session; infer unambiguous direction without a setup interview.",
+        "Show STATE: objective, focus, done, next action, active controls, and honest persistence status.",
+        "Handle ADVANCE and necessary DEPENDENCY segments; route optional TANGENT segments to tangents.",
+        "Apply an explicit PIVOT or NEW OBJECTIVE; preserve the previous direction and reason.",
+        "LOCK FOCUS or UNLOCK FOCUS; report the selected session mode.",
+        "Report meaningful progress, inspect stalls, and propose a smaller next step or a deliberate change of method."
+      ],
+      "inputs": [
+        "Current request and relevant conversation context",
+        "Existing workstream identity/state when known",
+        "User-selected focus mode and completion condition"
+      ],
+      "outputs": [
+        "A visible direction card and control status",
+        "A concrete progress delta or exact blocker",
+        "A proposed state change with its provenance"
+      ],
+      "capabilities": [
+        "direction",
+        "workstreams",
+        "reporting"
+      ],
+      "boundary": "A correction, blocker, or explicit instruction must not be discarded as a tangent. Classify mixed messages by segment. Focus control cannot authorize implementation, and ordinary progress notes are not separate durable facts. Intended duration: this conversation until released or replaced.",
+      "negative_example": "An ordinary factual question without explicit skill selection must not start a focus session.",
+      "design_question": "Should focus and tangents remain separate controls, or should selecting tangents also establish a minimal direction card?"
+    },
+    {
+      "name": "tangents",
+      "title": "Tangents",
+      "group": "Attention",
+      "status": "stub",
+      "purpose": "Capture adjacent ideas without losing their wording or the active thread, then retrieve and review them in context.",
+      "invocation": "Use $tangents to help me stay on topic while preserving useful side ideas.",
+      "source_sections": [
+        "0.3",
+        "D3",
+        "D4",
+        "D6",
+        "D8",
+        "E1",
+        "E7"
+      ],
+      "modes": [
+        "PARK an idea immediately, before exploring it; preserve the original wording separately from a short title.",
+        "Show an inline capture receipt and the return point to the main task.",
+        "Show LEDGER on request or a relevant milestone; filter by thread, project, or general ideas.",
+        "Set or revise a concrete revisit trigger, priority, project association, or relationship.",
+        "Close, drop, reopen, or propose promotion of a tangent with a reason and retained history.",
+        "Recognize an idea becoming a dependency; route explicit exploration to explore and accepted project promotion to promote."
+      ],
+      "inputs": [
+        "Original idea text and enough surrounding context to interpret it",
+        "Originating conversation/workstream and known project associations",
+        "Current focus/return point, revisit trigger, and user intent"
+      ],
+      "outputs": [
+        "A stable capture reference with actual write/read-back status",
+        "A compact inline receipt and return-to-focus cue",
+        "Contextual ledger views and disposition history"
+      ],
+      "capabilities": [
+        "ideas",
+        "direction",
+        "reporting",
+        "promotion"
+      ],
+      "boundary": "General ideas and project-specific ideas need distinct context without separate competing copies. An idea is not a task, a memory, or permission for background research. A save failure must remain visible. Natural-language overrides remain valid. Intended duration: the opted-in conversation, with explicit release.",
+      "negative_example": "A correction to the current deliverable must not be parked, and a fictional idea in a quotation must not be captured as the user’s own initiative.",
+      "design_question": "Which context is essential for a faithful capture, and should the inline receipt always include the durable ID?"
+    },
+    {
+      "name": "explore",
+      "title": "Explore",
+      "group": "Attention",
+      "status": "stub",
+      "purpose": "Take a deliberately bounded detour and return to the prior focus with the useful findings preserved.",
+      "invocation": "Use $explore for one turn on this alternative, then return to the migration plan.",
+      "source_sections": [
+        "D4",
+        "D6",
+        "D7",
+        "D8"
+      ],
+      "modes": [
+        "Begin EXPLORE N with a topic, an explicit turn budget, and a saved return point.",
+        "Track exploration turns and allow an explicit extension or early RESUME.",
+        "At the limit, summarize useful findings, park unresolved follow-ups, and restore the prior focus."
+      ],
+      "inputs": [
+        "Topic or existing tangent ID",
+        "Budget and what counts as a turn",
+        "Prior focus and next action"
+      ],
+      "outputs": [
+        "Exploration status and remaining budget",
+        "A concise findings summary",
+        "Restored direction and linked follow-ups"
+      ],
+      "capabilities": [
+        "direction",
+        "ideas",
+        "workstreams",
+        "reporting"
+      ],
+      "boundary": "Exploration does not silently replace the objective or authorize external actions. Tool calls and progress notes should not consume extra assistant-turn budget. Future time budgets require a real clock and execution support; this stub starts no timer.",
+      "negative_example": "Mentioning a possible alternative in passing must not begin exploration.",
+      "design_question": "Is an assistant-turn budget the right default, and how should nesting or an interrupted exploration work?"
+    },
+    {
+      "name": "checkpoint",
+      "title": "Checkpoint",
+      "group": "Continuity",
+      "status": "stub",
+      "purpose": "Preserve a recoverable, revisioned snapshot of a workstream and make the persistence boundary explicit.",
+      "invocation": "Use $checkpoint to prepare a recoverable snapshot before I leave.",
+      "source_sections": [
+        "0.3",
+        "D1",
+        "D2",
+        "D6",
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E7",
+        "E8"
+      ],
+      "modes": [
+        "Create or update a namespaced workstream checkpoint after a material change.",
+        "Select an available persistence adapter and disclose its actual reach.",
+        "Check the expected revision and writer binding; preserve history and surface conflicts.",
+        "Verify a successful save and update a discovery index of pointers.",
+        "Produce a portable Markdown/structured snapshot when direct saving is unavailable."
+      ],
+      "inputs": [
+        "Workstream ID, writer binding, expected revision, and source location",
+        "Objective, focus, done, next action, constraints, decisions, assumptions, and tangent references",
+        "Available destination and desired continuation surface"
+      ],
+      "outputs": [
+        "Versioned state envelope and readable checkpoint",
+        "Actual location, revision, save/read-back result, and reach",
+        "Explicit manual-save-pending status when applicable"
+      ],
+      "capabilities": [
+        "workstreams",
+        "export",
+        "reporting"
+      ],
+      "boundary": "Rendering a checkpoint is not saving it. Read-back is not proof of backup, cross-device access, or recovery after every failure. Do not overwrite another thread’s state or silently change adapters. Beads retains task ownership when present; a checkpoint refers to tasks rather than becoming another tracker.",
+      "negative_example": "A brief answer or every sentence must not trigger a checkpoint automatically.",
+      "design_question": "Which state deserves capture at each material change, and which parts can remain links to existing Beads records?"
+    },
+    {
+      "name": "recover",
+      "title": "Recover",
+      "group": "Continuity",
+      "status": "stub",
+      "purpose": "Find and reconcile the correct surviving workstream after interruption or context loss, with deliberate resume ownership.",
+      "invocation": "Use $recover to find where this workstream stopped and show the next action.",
+      "source_sections": [
+        "0.3",
+        "A4",
+        "D1",
+        "D6",
+        "E1",
+        "E5",
+        "E6",
+        "E7",
+        "E8"
+      ],
+      "modes": [
+        "Discover candidate workstreams using known IDs, exposed thread bindings, and project indexes.",
+        "Load the best matching record and reconcile revision, provenance, writer, and location.",
+        "Show recovered direction and unresolved gaps without initializing replacement state.",
+        "For an explicit RESUME WORKSTREAM request, acquire or transfer ownership before later writes.",
+        "Resolve ambiguity with one narrow choice; use conversation or memory only as labeled weaker evidence."
+      ],
+      "inputs": [
+        "Known workstream/thread/project pointers",
+        "Current user request: inspect, recover, or resume",
+        "Surviving records and ownership information"
+      ],
+      "outputs": [
+        "Recovered identity, direction, revision, and next action",
+        "Source and uncertainty of recovered state",
+        "An ownership result only when a real transfer occurred"
+      ],
+      "capabilities": [
+        "workstreams",
+        "ownership",
+        "export",
+        "reporting"
+      ],
+      "boundary": "Showing a saved next action does not authorize executing it. Do not invent platform IDs, merge unrelated threads, silently reset revision numbers, or claim automatic compaction recovery. Intended duration: one recovery/resume request.",
+      "negative_example": "A user asking what happened last time must not trigger a new task, ownership transfer, or implementation.",
+      "design_question": "Should read-only recovery and writer-acquiring resume be separate skills or clearly separated modes?"
+    },
+    {
+      "name": "fork",
+      "title": "Fork workstream",
+      "group": "Continuity",
+      "status": "stub",
+      "purpose": "Create an independent workstream from a specified revision while retaining its ancestry.",
+      "invocation": "Use $fork to branch this workstream into a separate investigation.",
+      "source_sections": [
+        "D6",
+        "E1",
+        "E2",
+        "E6"
+      ],
+      "modes": [
+        "Read a specified parent workstream revision.",
+        "Create a new identity, writer binding, and initial revision with parent and fork-revision references.",
+        "Register the child without modifying the parent or promoting local state to project authority."
+      ],
+      "inputs": [
+        "Parent identity and revision",
+        "Child purpose, project association, and intended writer",
+        "Available state adapter"
+      ],
+      "outputs": [
+        "Independent child workstream reference",
+        "Retained ancestry and provenance",
+        "Confirmed child save with unchanged parent state"
+      ],
+      "capabilities": [
+        "workstreams",
+        "ownership"
+      ],
+      "boundary": "A Veracity workstream fork is distinct from a Git branch, worktree, or app chat. Creating those containers requires a separately requested operation and host support. Do not silently copy private context into a broader scope.",
+      "negative_example": "An alternate solution mentioned in discussion must not create a fork or a new app chat.",
+      "design_question": "Which state should the child inherit by reference, and which state should be copied as a snapshot?"
+    },
+    {
+      "name": "handoff",
+      "title": "Handoff",
+      "group": "Continuity",
+      "status": "stub",
+      "purpose": "Prepare and verify the transfer of a workstream across conversations, agents, or supported surfaces.",
+      "invocation": "Use $handoff to prepare this work for another conversation.",
+      "source_sections": [
+        "D6",
+        "E3",
+        "E4",
+        "E6",
+        "E8"
+      ],
+      "modes": [
+        "Checkpoint the source revision and prepare a portable transfer packet.",
+        "Identify target, capability gaps, and any manual transfer step.",
+        "Transfer writer ownership with an explicit acceptance/verification state.",
+        "Verify the imported revision and report whether transfer is pending, accepted, or failed."
+      ],
+      "inputs": [
+        "Source identity, revision, and writer",
+        "Target surface or recipient when specified",
+        "Transfer scope and available adapters"
+      ],
+      "outputs": [
+        "Portable state packet and source receipt",
+        "Explicit transfer and ownership status",
+        "Target verification or a concrete manual handoff step"
+      ],
+      "capabilities": [
+        "workstreams",
+        "ownership",
+        "export",
+        "reporting"
+      ],
+      "boundary": "Preparation does not mean delivery or acceptance. No implicit messaging, remote connection, or background agent. Transfer failure must not strand the only usable state. Do not claim that local files are accessible in ChatGPT web.",
+      "negative_example": "Asking for a summary must not send it to another chat or pause another writer.",
+      "design_question": "What is the smallest safe transfer protocol that preserves a usable source until target acceptance?"
+    },
+    {
+      "name": "promote",
+      "title": "Promote to project",
+      "group": "Continuity",
+      "status": "stub",
+      "purpose": "Promote an accepted thread-local item into shared project knowledge while preserving its origin and conflicts.",
+      "invocation": "Use $promote to make this accepted decision part of the project’s shared context.",
+      "source_sections": [
+        "0.3",
+        "D6",
+        "D8",
+        "E1",
+        "E7"
+      ],
+      "modes": [
+        "Identify the specific accepted decision, constraint, fact, artifact, or tangent disposition.",
+        "Inspect the destination project scope and revision.",
+        "Preview the shared-state change, merge compatible material, and expose conflicts.",
+        "Record source workstream/revision and leave the original item/history intact."
+      ],
+      "inputs": [
+        "Explicitly selected item and evidence of acceptance",
+        "Source identity/revision",
+        "Destination project and current shared-state revision"
+      ],
+      "outputs": [
+        "Project-state revision and provenance link",
+        "Conflict or merge result",
+        "Originating item’s promotion relationship"
+      ],
+      "capabilities": [
+        "promotion",
+        "workstreams",
+        "ideas",
+        "evidence"
+      ],
+      "boundary": "An assistant suggestion is not an accepted fact. Project promotion is distinct from personal memory, Beads task creation, and bootstrapping a new initiative. Broader visibility must remain deliberate.",
+      "negative_example": "A speculative tangent must not become an approved project commitment merely because it was captured.",
+      "design_question": "Should promoting a tangent mean linking a project idea, accepting a project fact, or offering those as different destinations?"
+    },
+    {
+      "name": "memory",
+      "title": "Memory",
+      "group": "Continuity",
+      "status": "stub",
+      "purpose": "Handle explicit personal-memory requests and recovery pointers without treating memory as exact execution state.",
+      "invocation": "Use $memory to remember this preference for future conversations.",
+      "source_sections": [
+        "0.3",
+        "E1",
+        "E8"
+      ],
+      "modes": [
+        "Distinguish stable preferences from workstream state, project facts, and transient ideas.",
+        "Prepare an explicit remember, update, or forget operation for the appropriate native memory mechanism.",
+        "Store a compact namespaced recovery pointer only when requested and useful.",
+        "Show the actual persistence result and relevant limitations."
+      ],
+      "inputs": [
+        "User’s explicit memory request and exact intended fact",
+        "Scope: personal, project, or workstream pointer",
+        "Available native memory mechanism and existing matching records"
+      ],
+      "outputs": [
+        "Memory change or a clearly unsaved proposal",
+        "Where it was stored and what was confirmed",
+        "A pointer to stronger state when relevant"
+      ],
+      "capabilities": [
+        "memory",
+        "workstreams",
+        "reporting"
+      ],
+      "boundary": "Use host-native memory tools where available; no silent personal-memory promotion or fabricated durability. Do not duplicate execution state into a generic project-current memory. Forget semantics depend on the actual memory system.",
+      "negative_example": "A passing preference, sensitive aside, or useful idea without a memory request must not be saved as personal memory.",
+      "design_question": "Is this best retained as a skill, or should Veracity only route explicit requests to the host’s memory tool?"
+    },
+    {
+      "name": "assumptions",
+      "title": "Assumptions",
+      "group": "Evidence and decisions",
+      "status": "stub",
+      "purpose": "Maintain the load-bearing premises of a piece of work and make their validation paths and status changes inspectable.",
+      "invocation": "Use $assumptions to track the premises this recommendation depends on.",
+      "source_sections": [
+        "0.1",
+        "B2",
+        "B3",
+        "C3",
+        "E2",
+        "E4"
+      ],
+      "modes": [
+        "Identify and record only material unestablished premises.",
+        "Attach why each premise matters, evidence, uncertainty, and a validation/revisit path.",
+        "Validate, reject, or supersede an assumption with evidence and history.",
+        "Review dependent conclusions when a premise changes; preserve selected risk mode."
+      ],
+      "inputs": [
+        "Proposed conclusion, plan, or action and its premises",
+        "Known evidence and uncertainty",
+        "Workstream context and intended risk mode"
+      ],
+      "outputs": [
+        "A compact assumption register with stable references",
+        "Evidence-backed status transitions",
+        "Affected conclusions or next validation action"
+      ],
+      "capabilities": [
+        "evidence",
+        "workstreams",
+        "reporting"
+      ],
+      "boundary": "An inferred claim is not automatically an assumption record. Confidence is an approximate judgment unless genuinely calibrated. Risk mode changes the exploration approach, not permission or truthfulness obligations.",
+      "negative_example": "A derived arithmetic result with verified inputs must not automatically create an open assumption.",
+      "design_question": "Should assumption history live alongside workstream checkpoints or in a shared evidence register?"
+    },
+    {
+      "name": "verify",
+      "title": "Verify claims",
+      "group": "Evidence and decisions",
+      "status": "stub",
+      "purpose": "Check material claims against current evidence and separate direct support, derivation, speculation, and source disagreement.",
+      "invocation": "Use $verify to check the load-bearing claims in this proposal.",
+      "source_sections": [
+        "0.1",
+        "0.4",
+        "B1",
+        "B2",
+        "B4",
+        "F2"
+      ],
+      "modes": [
+        "Extract material claims, splitting claims with different evidence status.",
+        "Check freshness and retrieve appropriate primary sources or current artifacts.",
+        "Expose what the source actually supports, what is derived, and what remains speculative.",
+        "Reconcile conflicting sources and give a practical validation path for unresolved claims.",
+        "Produce a claim review or optional inline evidence annotations, keeping reusable payloads clean."
+      ],
+      "inputs": [
+        "Claims or artifact to review",
+        "Relevant time/version and decision context",
+        "Available sources, tools, and requested review depth"
+      ],
+      "outputs": [
+        "Claim-to-evidence findings and citations",
+        "Limitations, conflicts, and validation paths",
+        "Optional annotated explanation outside clean payloads"
+      ],
+      "capabilities": [
+        "sources",
+        "evidence",
+        "artifacts"
+      ],
+      "boundary": "Source retrieval and interpretation are separate. A source saying something does not establish universal truth. No invented browsing, test results, or numeric calibration; a failed tool is not evidence of an absent fact.",
+      "negative_example": "Ordinary conversation must not activate a mandatory claim-tail format without selecting this skill or a later explicit profile.",
+      "design_question": "Should verification produce a separate evidence review, inline annotations, or a user-selected combination?"
+    },
+    {
+      "name": "decide",
+      "title": "Decide",
+      "group": "Evidence and decisions",
+      "status": "stub",
+      "purpose": "Frame a consequential choice, challenge weak premises, and make a recommendation tied to evidence and tradeoffs.",
+      "invocation": "Use $decide to help choose between these approaches.",
+      "source_sections": [
+        "0.2",
+        "0.4",
+        "C3",
+        "C4",
+        "C5",
+        "C6",
+        "E2"
+      ],
+      "modes": [
+        "Identify the actual decision, constraints, decision hinge, and any essential clarification.",
+        "Compare a small relevant option set on reversibility, impact, delay, burden, feedback, and long-term consequences.",
+        "Apply constructive pushback and relevant stakeholder considerations.",
+        "Recommend an option or a discriminating experiment; record a decision only when actually accepted."
+      ],
+      "inputs": [
+        "Decision and candidate approaches",
+        "Constraints, stakeholders, evidence, and material unknowns",
+        "Who has authority to accept the outcome"
+      ],
+      "outputs": [
+        "Recommendation with inspectable reasoning and tradeoffs",
+        "Explicit assumptions and what would change the recommendation",
+        "A proposed or accepted decision with distinct status"
+      ],
+      "capabilities": [
+        "evidence",
+        "sources",
+        "workstreams"
+      ],
+      "boundary": "Decision support does not execute the recommendation or manufacture disagreement. A recommendation is distinct from user acceptance. Human factors are relevant only when they affect the decision.",
+      "negative_example": "A clear implementation request must not be diverted into an unsolicited decision workshop.",
+      "design_question": "Should accepted decision capture be a mode here or a separate action later?"
+    },
+    {
+      "name": "diagnose",
+      "title": "Diagnose",
+      "group": "Evidence and decisions",
+      "status": "stub",
+      "purpose": "Turn symptoms into testable hypotheses and evidence-backed conclusions before proposing a fix.",
+      "invocation": "Use $diagnose to investigate why this workflow is failing.",
+      "source_sections": [
+        "0.1",
+        "0.2",
+        "0.4",
+        "C4",
+        "F1"
+      ],
+      "modes": [
+        "Separate observed symptoms from hypotheses and assumptions.",
+        "Choose minimal discriminating checks and record actual outcomes.",
+        "Revise the causal explanation when evidence disagrees.",
+        "Propose a fix with material validation, rollback, and operational implications."
+      ],
+      "inputs": [
+        "Symptoms, relevant artifacts, and current environment",
+        "Available read/execute permissions",
+        "Failure impact and already-attempted checks"
+      ],
+      "outputs": [
+        "Evidence-backed diagnosis or bounded remaining uncertainty",
+        "A reproducible check and observed result",
+        "A proposed remedy and validation path"
+      ],
+      "capabilities": [
+        "sources",
+        "evidence",
+        "artifacts"
+      ],
+      "boundary": "Diagnosis is not permission to apply fixes or run destructive probes. Distinguish observations, tests actually performed, and tests only proposed. Do not turn this into a generic engineering tutorial.",
+      "negative_example": "A request to explain an error message must not silently mutate the system.",
+      "design_question": "Is this distinct enough from verify to earn a separate invocation, given its causal-test workflow?"
+    },
+    {
+      "name": "artifacts",
+      "title": "Artifacts",
+      "group": "Delivery and inspection",
+      "status": "stub",
+      "purpose": "Inspect and change mutable deliverables deliberately, preserving current edits and keeping reusable output clean.",
+      "invocation": "Use $artifacts to make a targeted, copy-safe update to this document.",
+      "source_sections": [
+        "B2",
+        "F3",
+        "F4",
+        "G"
+      ],
+      "modes": [
+        "Read the current artifact and distinguish the requested change from unrelated edits.",
+        "Prepare a targeted patch or a justified whole-artifact rewrite.",
+        "Apply only an authorized change and verify the resulting state.",
+        "Produce clean code, configuration, drafts, templates, or data, with commentary outside the payload.",
+        "Review an existing artifact for stale-state edits and copy-safety defects without changing it."
+      ],
+      "inputs": [
+        "Artifact location/current contents and requested outcome",
+        "Edit versus review scope",
+        "Format-specific constraints and validation method"
+      ],
+      "outputs": [
+        "Clean deliverable, proposed diff, or applied diff with accurate status",
+        "Validation evidence appropriate to the format",
+        "Unresolved conflicts or copy-safety findings"
+      ],
+      "capabilities": [
+        "artifacts",
+        "reporting"
+      ],
+      "boundary": "No stale whole-file overwrites or hidden annotations in reusable payloads. Respect existing format-specific tools and user edits. Review requests remain read-only; permission to edit one artifact is not permission to publish it.",
+      "negative_example": "A request for critique must not rewrite or publish the artifact.",
+      "design_question": "Should targeted editing and copy-safe delivery be separate skills, or modes of this one?"
+    },
+    {
+      "name": "audit",
+      "title": "Audit collaboration",
+      "group": "Delivery and inspection",
+      "status": "stub",
+      "purpose": "Inspect whether the work and its reported status meet the relevant collaboration requirements.",
+      "invocation": "Use $audit to check this result for unsupported claims, drift, and missing recovery information.",
+      "source_sections": [
+        "0.1",
+        "0.2",
+        "0.3",
+        "0.4",
+        "A3",
+        "A4",
+        "B1",
+        "D7",
+        "D9",
+        "G"
+      ],
+      "modes": [
+        "Run a requested full pillar review or a focused exception review.",
+        "Compare reported actions, evidence, focus, and persistence claims with observable results.",
+        "Check relevant pre-send requirements for the selected skills and delivery format.",
+        "Distinguish repairable presentation defects, operational delays, and material integrity problems.",
+        "Recommend recovery, verification, or state repair without claiming universal adherence."
+      ],
+      "inputs": [
+        "Result, conversation excerpt, or workstream to inspect",
+        "Selected requirements and actual evidence",
+        "Desired review depth"
+      ],
+      "outputs": [
+        "Concrete findings linked to evidence",
+        "Material exceptions and repair recommendations",
+        "Explicit untested areas and limits of the audit"
+      ],
+      "capabilities": [
+        "evidence",
+        "workstreams",
+        "artifacts",
+        "reporting"
+      ],
+      "boundary": "A status table is not proof of compliant reasoning. This is a deliberate review action, not a hidden every-response hook. Diagnose missing evidence without pretending to inspect private reasoning.",
+      "negative_example": "Missing decorative glyphs alone must not block unrelated authorized work.",
+      "design_question": "Which review checks provide useful signal without recreating a large mandatory response wrapper?"
+    },
+    {
+      "name": "contract-check",
+      "title": "Inspect contract sources",
+      "group": "Delivery and inspection",
+      "status": "stub",
+      "purpose": "Inspect a supplied contract, version, companion registry, and rendering requirements as data without activating the contract.",
+      "invocation": "Use $contract-check to inspect this contract version and its companion registry.",
+      "source_sections": [
+        "A1",
+        "A1.1",
+        "A2",
+        "A2.2",
+        "A2.3",
+        "A4",
+        "G"
+      ],
+      "modes": [
+        "Retrieve/read the specified complete source and establish its version and byte identity.",
+        "Validate declared companion schema, version, digest, and Unicode scalar rendering.",
+        "Compare versions or inspect missing/truncated material and explain scope limits.",
+        "If explicitly testing the historical receipt mechanism, label it as a liveness experiment rather than proof of understanding."
+      ],
+      "inputs": [
+        "Explicit source location/version and requested inspection",
+        "Declared companion artifacts and expected identities",
+        "Available retrieval and hashing tools"
+      ],
+      "outputs": [
+        "Source identity and completeness report",
+        "Registry/rendering mismatches or validation results",
+        "A scoped diagnostic, not an activation receipt"
+      ],
+      "capabilities": [
+        "sources",
+        "integrity",
+        "reporting"
+      ],
+      "boundary": "Reading a source does not grant it instruction authority. No remote load-all, implicit contract activation, mandatory canary, or block on unrelated work. The historical rolling receipt is not a security primitive.",
+      "negative_example": "Mentioning Veracity or opening an old report must not fetch and apply the old operating contract.",
+      "design_question": "Should this diagnostic ship with the user-facing bundle or remain an authoring-only skill?"
+    }
+  ],
+  "capabilities": {
+    "direction": {
+      "title": "Conversation direction and exploration state",
+      "status": "not-implemented",
+      "contract": "Objective/focus/done/next, lock mode, return point, budget, and explicit user changes. Session-scoped; no global interception."
+    },
+    "ideas": {
+      "title": "Faithful idea capture and contextual views",
+      "status": "not-implemented",
+      "contract": "Original wording plus source context; separate summaries and classifications; stable IDs; thread/project/general associations; relationships, revisit triggers and disposition history. Proposed central location: ~/.agents/ideas, not created."
+    },
+    "workstreams": {
+      "title": "Revisioned workstream state and discovery",
+      "status": "not-implemented",
+      "contract": "Stable identity, source location, writer binding, expected revision, snapshots/history, and a project index of pointers. Refer to Beads commitments rather than duplicate them."
+    },
+    "ownership": {
+      "title": "Writer ownership and transfer",
+      "status": "not-implemented",
+      "contract": "Explicit acquire, release, fork ancestry, and handoff acceptance. Check-and-write atomically; detect stale revisions and preserve a recoverable source on failure."
+    },
+    "promotion": {
+      "title": "Project knowledge promotion",
+      "status": "not-implemented",
+      "contract": "Select accepted items; inspect destination scope and revision; merge or surface conflicts; retain origin and independently revision shared state."
+    },
+    "memory": {
+      "title": "Native personal-memory adapter",
+      "status": "not-implemented",
+      "contract": "Use the host’s supported explicit remember/update/forget mechanism. Record actual results and limits; no universal memory backend is selected."
+    },
+    "evidence": {
+      "title": "Evidence, assumptions, and decisions",
+      "status": "not-implemented",
+      "contract": "Keep original source, interpretation, claim status, assumptions, accepted/proposed decisions, uncertainty, and validation history distinguishable."
+    },
+    "sources": {
+      "title": "Current source and artifact access",
+      "status": "not-implemented",
+      "contract": "Use available primary-source/browser/file tools; record source identity, time/version, completeness and failures. No tool interface is assumed universally available."
+    },
+    "artifacts": {
+      "title": "Current artifact reads, patches, and validation",
+      "status": "not-implemented",
+      "contract": "Read latest state; preserve unrelated changes; preview/apply distinct operations; keep payloads clean; invoke existing format-specific tools when available."
+    },
+    "export": {
+      "title": "Portable checkpoint and handoff",
+      "status": "not-implemented",
+      "contract": "Readable Markdown plus lossless structured state, provenance and unknown-field preservation. Rendering, local saving, delivery, and target import are separate outcomes."
+    },
+    "reporting": {
+      "title": "Visible action and control receipts",
+      "status": "not-implemented",
+      "contract": "Compact capture, state, progress and exception views derived from actual outcomes. An intended action, failed write, successful write, read-back, backup, and cross-surface reach are different claims."
+    },
+    "integrity": {
+      "title": "Source and registry diagnostics",
+      "status": "not-implemented",
+      "contract": "Byte-complete reads, hashes, schema/version checks and exact Unicode rendering when specifically requested. No response canary proves semantic adherence."
+    }
+  },
+  "source_dispositions": {
+    "0.1": {
+      "kind": "intention + actions",
+      "skills": [
+        "verify",
+        "assumptions",
+        "audit"
+      ],
+      "reason": "Truthfulness is a general obligation; verification, premise tracking and claim review are explicit jobs."
+    },
+    "0.2": {
+      "kind": "intention + actions",
+      "skills": [
+        "focus",
+        "decide",
+        "diagnose"
+      ],
+      "reason": "Pragmatism informs recommendations; direction, decisions and discriminating checks have inspectable outputs."
+    },
+    "0.3": {
+      "kind": "intention + actions",
+      "skills": [
+        "tangents",
+        "checkpoint",
+        "recover",
+        "memory",
+        "promote"
+      ],
+      "reason": "Continuity becomes capture/recovery/promotion actions. Personal memory requires an explicit request in this design."
+    },
+    "0.4": {
+      "kind": "intention + actions",
+      "skills": [
+        "verify",
+        "decide",
+        "diagnose",
+        "audit"
+      ],
+      "reason": "Constructive skepticism is a stance; source checks, decisions and diagnostics are concrete workflows."
+    },
+    "A1": {
+      "kind": "diagnostic adaptation",
+      "skills": [
+        "contract-check"
+      ],
+      "reason": "Inspect source completeness and identity on request. Do not inherit remote-source authority or load-all behavior."
+    },
+    "A1.1": {
+      "kind": "experimental diagnostic",
+      "skills": [
+        "contract-check"
+      ],
+      "reason": "Retain receipt inspection only as an optional historical experiment; no mandatory rolling receipt."
+    },
+    "A2": {
+      "kind": "presentation intention + diagnostic",
+      "skills": [
+        "contract-check",
+        "audit"
+      ],
+      "reason": "Canary appearance may be inspected; no mandatory first-line wrapper or proof of comprehension."
+    },
+    "A2.1": {
+      "kind": "communication intention + actions",
+      "skills": [
+        "focus",
+        "audit"
+      ],
+      "reason": "Useful progress reporting and material blockers belong to active workflows. No universal major/progress output grammar."
+    },
+    "A2.2": {
+      "kind": "presentation intention",
+      "skills": [],
+      "reason": "Stable visual semantics remain a design intention; no standalone formatting skill or forced glyph profile."
+    },
+    "A2.3": {
+      "kind": "diagnostic adaptation",
+      "skills": [
+        "contract-check"
+      ],
+      "reason": "Registry verification and exact-render checks are opt-in diagnostics."
+    },
+    "A3": {
+      "kind": "action",
+      "skills": [
+        "audit"
+      ],
+      "reason": "Requested pillar/exception reviews are observable reviews, not permanent self-certification."
+    },
+    "A4": {
+      "kind": "actions",
+      "skills": [
+        "recover",
+        "audit",
+        "contract-check"
+      ],
+      "reason": "Recover workstream state and diagnose integrity failures; do not activate the whole contract."
+    },
+    "B1": {
+      "kind": "intention + action",
+      "skills": [
+        "audit"
+      ],
+      "reason": "Honest action reporting is foundational; an audit can compare claims with evidence."
+    },
+    "B2": {
+      "kind": "actions + presentation intention",
+      "skills": [
+        "verify",
+        "assumptions",
+        "artifacts"
+      ],
+      "reason": "Classify/verify material claims and protect payloads. Exact glyphs and confidence tails are optional presentation choices."
+    },
+    "B3": {
+      "kind": "action",
+      "skills": [
+        "assumptions"
+      ],
+      "reason": "Track material premises, validation paths and status; risk modes do not grant new authority."
+    },
+    "B4": {
+      "kind": "action",
+      "skills": [
+        "verify"
+      ],
+      "reason": "Check current facts or state the gap and validation path."
+    },
+    "C1": {
+      "kind": "behavioral intention",
+      "skills": [],
+      "reason": "Peer-level communication is a preference, not a tool workflow."
+    },
+    "C2": {
+      "kind": "behavioral intention",
+      "skills": [],
+      "reason": "Answer-first writing and concise structure are output preferences."
+    },
+    "C3": {
+      "kind": "intention + actions",
+      "skills": [
+        "decide",
+        "assumptions"
+      ],
+      "reason": "Ask only useful questions; make decision hinges and load-bearing assumptions explicit."
+    },
+    "C4": {
+      "kind": "action + intention",
+      "skills": [
+        "decide",
+        "diagnose"
+      ],
+      "reason": "Tradeoff analysis, recommendations and root-cause work have separate outcomes."
+    },
+    "C5": {
+      "kind": "behavioral intention + action",
+      "skills": [
+        "decide",
+        "verify"
+      ],
+      "reason": "Constructive challenge informs explicit decision and evidence reviews; no performative-pushback skill."
+    },
+    "C6": {
+      "kind": "behavioral intention + action",
+      "skills": [
+        "decide"
+      ],
+      "reason": "Consider people and consequences when material to an actual decision."
+    },
+    "C7": {
+      "kind": "communication intention + action",
+      "skills": [
+        "focus"
+      ],
+      "reason": "Report meaningful progress during active work; no promised background operation."
+    },
+    "D1": {
+      "kind": "action",
+      "skills": [
+        "focus",
+        "checkpoint",
+        "recover"
+      ],
+      "reason": "Establish/recover direction and stable workstream identity."
+    },
+    "D2": {
+      "kind": "view + actions",
+      "skills": [
+        "focus",
+        "checkpoint"
+      ],
+      "reason": "Expose current direction/state when useful; do not mandate a canary table on every answer."
+    },
+    "D3": {
+      "kind": "action",
+      "skills": [
+        "focus",
+        "tangents"
+      ],
+      "reason": "Classify message segments; protect explicit user pivots, corrections and necessary dependencies."
+    },
+    "D4": {
+      "kind": "action",
+      "skills": [
+        "tangents"
+      ],
+      "reason": "Capture before optional exploration, report the real outcome, and return to focus."
+    },
+    "D5": {
+      "kind": "action",
+      "skills": [
+        "focus"
+      ],
+      "reason": "Resolve only the necessary dependency and reconnect it to focus."
+    },
+    "D6": {
+      "kind": "command surface",
+      "skills": [
+        "focus",
+        "tangents",
+        "explore",
+        "checkpoint",
+        "recover",
+        "fork",
+        "handoff",
+        "promote"
+      ],
+      "reason": "Every named command has a home in the command map; natural language remains valid."
+    },
+    "D7": {
+      "kind": "action + intention",
+      "skills": [
+        "focus",
+        "audit"
+      ],
+      "reason": "Inspect progress/stalls; analysis advancing the user’s actual request counts. No automatic implementation from a review request."
+    },
+    "D8": {
+      "kind": "action + view",
+      "skills": [
+        "tangents"
+      ],
+      "reason": "Maintain the ledger, dispositions and deliberate review triggers."
+    },
+    "D9": {
+      "kind": "view + review action",
+      "skills": [
+        "focus",
+        "audit"
+      ],
+      "reason": "Expose meaningful drift/pivot exceptions; no obligatory footer."
+    },
+    "E1": {
+      "kind": "support + actions",
+      "skills": [
+        "checkpoint",
+        "recover",
+        "fork",
+        "promote",
+        "memory"
+      ],
+      "reason": "Keep workstream, project and personal scopes distinct; ideas have their own domain."
+    },
+    "E2": {
+      "kind": "support + action",
+      "skills": [
+        "checkpoint"
+      ],
+      "reason": "Define identity, ancestry, revisions and state; no runtime schema frozen in this skeleton."
+    },
+    "E3": {
+      "kind": "support + actions",
+      "skills": [
+        "checkpoint",
+        "handoff"
+      ],
+      "reason": "Choose available adapters and accurately distinguish persistence/reach."
+    },
+    "E4": {
+      "kind": "action",
+      "skills": [
+        "checkpoint"
+      ],
+      "reason": "Persist/verify material changes or emit an honestly unsaved portable checkpoint."
+    },
+    "E5": {
+      "kind": "action",
+      "skills": [
+        "recover"
+      ],
+      "reason": "Discover/reconcile surviving state before asking the user to reconstruct it."
+    },
+    "E6": {
+      "kind": "actions + support",
+      "skills": [
+        "recover",
+        "fork",
+        "handoff",
+        "checkpoint"
+      ],
+      "reason": "Ownership, forks and expected-revision checks require a real state mechanism."
+    },
+    "E7": {
+      "kind": "actions + support",
+      "skills": [
+        "recover",
+        "checkpoint",
+        "promote"
+      ],
+      "reason": "Discover via indexes of pointers; explicitly merge accepted knowledge into project scope."
+    },
+    "E8": {
+      "kind": "actions + support",
+      "skills": [
+        "memory",
+        "checkpoint",
+        "handoff",
+        "recover"
+      ],
+      "reason": "Use explicit best-effort pointers, portable handoffs and verified imports; surface access limits."
+    },
+    "F1": {
+      "kind": "action + intention",
+      "skills": [
+        "diagnose"
+      ],
+      "reason": "Observe, hypothesize, test, conclude; distinguish diagnosis from fixing."
+    },
+    "F2": {
+      "kind": "action + intention",
+      "skills": [
+        "verify"
+      ],
+      "reason": "Gather current primary evidence and preserve disagreement and inference boundaries."
+    },
+    "F3": {
+      "kind": "action",
+      "skills": [
+        "artifacts"
+      ],
+      "reason": "Inspect current state, patch deliberately, and distinguish proposed/applied edits."
+    },
+    "F4": {
+      "kind": "action + output intention",
+      "skills": [
+        "artifacts"
+      ],
+      "reason": "Produce/review clean reusable payloads with separate explanatory material."
+    },
+    "G": {
+      "kind": "review action + support constraints",
+      "skills": [
+        "audit",
+        "artifacts",
+        "contract-check"
+      ],
+      "reason": "Inspect applicable claims, state, rendering and payload invariants on request. No universal pre-send enforcement hook."
+    }
+  },
+  "command_map": {
+    "PIVOT": "focus",
+    "NEW OBJECTIVE": "focus",
+    "EXPLORE 1 / EXPLORE N": "explore",
+    "PARK": "tangents",
+    "RESUME (prior focus)": "explore",
+    "LEDGER": "tangents",
+    "STATE": "focus",
+    "CHECKPOINT": "checkpoint",
+    "RESUME WORKSTREAM": "recover",
+    "FORK WORKSTREAM": "fork",
+    "HANDOFF": "handoff",
+    "PROMOTE ... TO PROJECT": "promote",
+    "LOCK FOCUS": "focus",
+    "UNLOCK FOCUS": "focus"
+  }
+}
