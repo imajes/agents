@@ -51,6 +51,18 @@
         "authentication": "ON_INSTALL"
       },
       "category": "Productivity"
+    },
+    {
+      "name": "mail-operations",
+      "source": {
+        "source": "local",
+        "path": "./Projects/sys-related/mail-operations/plugins/mail-operations"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
     }
   ]
 }
