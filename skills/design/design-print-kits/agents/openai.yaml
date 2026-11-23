@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Print Kits"
+  short_description: "Design readable cards, checklists, and print packs"
+  default_prompt: "Use $design-print-kits to turn my content into a readable, polished print kit."

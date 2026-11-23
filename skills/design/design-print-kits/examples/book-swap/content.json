@@ -1,0 +1,38 @@
+{
+  "identity": "NEIGHBORHOOD BOOK SWAP",
+  "setup": {
+    "title": "Setup checklist",
+    "subtitle": "A quick check before people arrive",
+    "groups": [
+      {"label": "Set up the space", "items": ["Set out books by broad category.", "Place blank category signs beside the books.", "Keep accessible, clear aisles between tables."]},
+      {"label": "Set out supplies", "items": ["Put out swap tokens.", "Set out pens and blank labels.", "Put the returns box where it is easy to find."]}
+    ],
+    "reminder": "Walk the route once. Can people move easily and find the tokens and returns box?"
+  },
+  "roster": {
+    "title": "Volunteer roster",
+    "subtitle": "Names, times and whereabouts",
+    "roles": ["Welcome", "Sort", "Floor help", "Returns", "Tidy-up", "Runner"]
+  },
+  "public": {
+    "title": "Welcome to the\nneighborhood book swap",
+    "invitation": "Browse something new. Share a good read.",
+    "steps": [
+      {"icon": "book-open", "title": "Browse the books", "text": "Explore the broad categories at your own pace."},
+      {"icon": "coins", "title": "One book per token", "text": "Take one book for each swap token."},
+      {"icon": "circle-question", "title": "Ask if you are unsure", "text": "A volunteer can help you find your way."}
+    ]
+  },
+  "private": {
+    "title": "Pacing and help",
+    "steps": [
+      ["Open", "Give a brief welcome."],
+      ["Orient", "Show the token and returns locations."],
+      ["Listen", "Pause for questions."],
+      ["Close", "Announce five minutes before closing."],
+      ["Reset", "Coordinate tidy-up with the volunteers."]
+    ],
+    "help": "Keep aisles clear. Offer help finding a category or reaching and carrying books.",
+    "pacing": "Keep the welcome short; leave time to browse."
+  }
+}
